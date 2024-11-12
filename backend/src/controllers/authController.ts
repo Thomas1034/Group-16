@@ -6,8 +6,8 @@ export const register = async(req: Request, res: Response) => {
         const { email, username, password } = req.body;
 
         const user = new User({
-            email,
             username,
+            email,
             password // TODO(Joey): hashing
         })
 
