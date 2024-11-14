@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import AuthRoute from './routes/authRoute';
+import { authenticateToken  } from './middleware/tokens';
+
+import { Request, Response } from 'express';
 
 const app = express();
 const PORT = process.env.PORT || 5000;

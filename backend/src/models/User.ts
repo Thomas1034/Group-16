@@ -21,11 +21,14 @@ const userSchema = new mongoose.Schema(
     },
     {
         statics: {
+            // Method to find user by email & password
             async findByCredentials(email: string, password: string) {
                 const user = await this.findOne({ email });
 
-                if (!user) return null;
-
+                if (!user) {
+                    console.log("User not found");
+                    return null;
+                } 
                 const isMatch = await bcrypt.compare(password, user.password);
 
                 // only return user on match
@@ -36,6 +39,7 @@ const userSchema = new mongoose.Schema(
     }
 );
 
+// Middleware to hash password before saving
 userSchema.pre('save', async function (next) {
     const user = this;
     if (!user.isModified('password')) {
