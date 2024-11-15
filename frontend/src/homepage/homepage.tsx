@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { AppBar, Toolbar, Typography, InputBase, styled, alpha, Avatar, Stack } from '@mui/material';
+import { AppBar, Toolbar, Typography, InputBase, styled, alpha, Avatar, Stack, Container } from '@mui/material';
+import Carousel from "react-carousel-mui";
 import SearchIcon from '@mui/icons-material/Search';
+import ReviewContainer from './ReviewContainer';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -47,27 +49,47 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function Homepage() {
+  var contactList = [{id: 0, imgSrc: "/apple.png"}, {id: 1, imgSrc: "/google.png"}, {id: 2, imgSrc: "/samsung.png"}, {id: 3, imgSrc: "/apple.png"}, {id: 4, imgSrc: "/google.png"}, {id: 5, imgSrc: "/samsung.png"}]
 
   return (
     <>
-      <AppBar position="fixed" style={{backgroundColor: "ghostwhite"}}>
+      <AppBar position="fixed" style={{backgroundColor: "white"}}>
         <Toolbar>
-          <Typography variant="h4" style={{color:"black", fontWeight: "bold",}}>
-            Manager Reviewer
-          </Typography>
-          <Search sx={{flexGrow: .5,}}>
-            <SearchIconWrapper>
-              <SearchIcon/>
-            </SearchIconWrapper>
-            <StyledInputBase
-              sx={{flexGrow: 1,}}
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          <Avatar alt="szum" src="https://online.stanford.edu/sites/default/files/styles/cropped_square/public/instructors/T001798-Szumlanski-Sean.jpg"/>
+          <Stack direction="row" justifyContent="space-between" style={{width: "100%", paddingLeft: "1%", paddingRight: "1%"}}>
+            <Typography variant="h4" style={{color:"black", fontWeight: "bold",}}>
+              Manager Reviewer
+            </Typography>
+            <Search sx={{flexGrow: .45, marginRight: "15%"}}>
+              <SearchIconWrapper>
+                <SearchIcon/>
+              </SearchIconWrapper>
+              <StyledInputBase
+                sx={{flexGrow: 1,}}
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+            <Avatar style={{position:"relative", justifyContent: "right"}} alt="szum" src="https://online.stanford.edu/sites/default/files/styles/cropped_square/public/instructors/T001798-Szumlanski-Sean.jpg"/>
+          </Stack>
         </Toolbar>
       </AppBar>
+      <Stack direction="row" style={{marginTop: "50px", backgroundColor: "white"}} alignItems="center" justifyContent="center">
+        <Carousel
+
+          items={contactList}
+          itemsPerPage={{
+            xs: 2,
+            sm: 2,
+            tablet: 2,
+            md: 3,
+            lg: 3,
+            xl: 3,
+          }}
+          itemRenderer={(item) => <ReviewContainer reviewObject={item}/>}
+          itemGap={25}
+          // maxContainerWidth={theme.breakpoints.values["md"]}
+          />
+      </Stack>
     </>
   )
 }
