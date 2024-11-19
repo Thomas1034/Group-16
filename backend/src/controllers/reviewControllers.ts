@@ -33,30 +33,25 @@ export const openReview = async(req: Request, res: Response) => {
 
 export const editReview = async(req: Request, res: Response) => {
     try {
-        const { contactManagerId, rating, body } = req.body;
-        const userId = req.user_id;
+        const { rating, body } = req.body;
+        const contact_id = req.params.id;
 
         if(!rating || !body) {
             res.status(401).json({error: "Missing required fields"});
             return;
         }
 
-        const review = await Review.findByCredentials(userId, contactManagerId);
+        const review = await Review.findById(contact_id);
 
         if (!review) {
             res.status(404).json({error: "Review not found"});
             return;
         }
 
-        const newReview = new Review({
-            userId,
-            contactManagerId,
-            rating,
-            body
-        });
+        review.rating = rating;
+        review.body = body;
 
-        await review.deleteReview();
-        await newReview.save();
+        await review.save();
         res.sendStatus(201);
 
     } catch (error) {

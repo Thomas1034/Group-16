@@ -4,7 +4,7 @@ import { authenticateToken } from '../middleware/tokens';
 
 const router = express.Router();
 
-router.post('/createReview', authenticateToken, ReviewController.createReview);
-router.post('/editReview', authenticateToken, ReviewController.editReview);
+router.post('/', authenticateToken, ReviewController.createReview);
+router.put('/:id', authenticateToken, ReviewController.editReview);
 
 export default router;
