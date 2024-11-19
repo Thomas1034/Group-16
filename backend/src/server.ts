@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import AuthRoute from './routes/authRoute';
+import ManagerRoute from './routes/managerRoute';
 import { authenticateToken  } from './middleware/tokens';
 
 import { Request, Response } from 'express';
@@ -23,6 +24,7 @@ mongoose.connect(process.env.MONGODB_URI!, {
 app.use(bodyParser.json());
 
 app.use('/api/auth', AuthRoute);
+app.use('/api/contact-managers', ManagerRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
