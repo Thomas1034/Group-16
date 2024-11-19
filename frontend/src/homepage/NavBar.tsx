@@ -1,7 +1,6 @@
 import * as React from 'react';
-
 import { AppBar, Toolbar, Typography, InputBase, styled, alpha, Avatar, Stack, Container } from '@mui/material';
-
+import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 
 const Search = styled('div')(({ theme }) => ({
@@ -51,11 +50,12 @@ const Search = styled('div')(({ theme }) => ({
 // will need id later
 function NavBar()
 {
+  const navigate = useNavigate();
     return (
         <AppBar position="fixed" style={{backgroundColor: "white"}}>
         <Toolbar>
           <Stack direction="row" justifyContent="space-between" style={{width: "100%", paddingLeft: "1%", paddingRight: "1%"}}>
-            <Typography variant="h4" style={{color:"black", fontWeight: "bold",}}>
+            <Typography variant="h4" style={{color:"black", fontWeight: "bold",}} onClick={() => navigate(`/`)}>
               Manager Reviewer
             </Typography>
             <Search sx={{flexGrow: .45, marginRight: "15%"}}>
