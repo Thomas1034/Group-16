@@ -13,8 +13,8 @@ interface IdHolder {
 export const create = async(req: Request, res: Response) => {
     try {
         const { name, image, url } = req.body;
-				const author = req.user_id;
-				
+        const author = req.user_id;
+
         if(!name || !image || !url || !author) {
             res.status(400).json({error: "Missing required fields"});
             return;
@@ -38,21 +38,19 @@ export const create = async(req: Request, res: Response) => {
 export const getAll = async(req: Request<{}, {}, {}, StringBearer>, res: Response) => {
     try {
         const { query } = req;
-				const page = query.page;
+        const page = query.page;
 
         if(!page) {
             res.status(400).json({error: "Missing required fields"});
             return;
         }
-				
-				
-				var allManagers = await ContactManager.find({}).then(function (dataArray) {
-					return dataArray;
-				});
-				
+
+
+        var allManagers = await ContactManager.findAllManagersWithAvgRating();
+
         res.status(201).json(allManagers);
     } catch (error) {
-				console.log("managerController.ts encountered an unexpected error:\n" + error);
+        console.log("managerController.ts encountered an unexpected error:\n" + error);
         res.status(500).json({error: "Internal server error."});
     }
 };
