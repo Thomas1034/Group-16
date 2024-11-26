@@ -3,7 +3,7 @@ import ContactManager from '../models/ContactManager';
 import { generateToken } from '../middleware/tokens';
 
 interface StringBearer {
-    page: string;
+    page?: string;
 }
 
 export const create = async(req: Request, res: Response) => {
