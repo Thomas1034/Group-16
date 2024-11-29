@@ -7,14 +7,10 @@ export const createReview = async(req: Request, res: Response) => {
         const { contactManagerId, rating, body } = req.body;
         const userId = req.user_id;
 
-        console.log("I pray to Joey");
-
         if(!contactManagerId || !rating || !body) {
             res.status(401).json({error: "Missing required fields"});
             return;
         }
-
-        console.log("I pray to MERN");
 
         const review = new Review({
             userId,
@@ -23,10 +19,7 @@ export const createReview = async(req: Request, res: Response) => {
             body
         });
 
-        console.log("I pray to Gerber");
-
         await review.save();
-        console.log("I pray to Jod");
         res.sendStatus(201);
 
     } catch (error) {
