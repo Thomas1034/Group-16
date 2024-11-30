@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 import AuthRoute from './routes/authRoute';
 import ManagerRoute from './routes/managerRoute';
+import ReviewRoute from './routes/reviewRoute';
 import { authenticateToken  } from './middleware/tokens';
 
 import { Request, Response } from 'express';
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', AuthRoute);
 app.use('/api/contact-managers', ManagerRoute);
+app.use('/api/reviews', ReviewRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
