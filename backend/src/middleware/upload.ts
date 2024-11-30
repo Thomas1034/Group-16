@@ -1,5 +1,7 @@
-import multer from 'multer';
+import multer, { FileFilterCallback } from 'multer';
+import { Request } from 'express';
 
+type File = Express.Multer.File;
 const maxFileSize = 1024 * 1024 * 8; // 8MB
 
 const storage = multer.diskStorage({
@@ -12,7 +14,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (req: Request, file: File, cb: FileFilterCallback) => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     if (!allowedTypes.includes(file.mimetype)) {
       const error = new Error('Incorrect file type');
@@ -29,3 +31,5 @@ const upload = multer({
       fileSize: maxFileSize,
     },
 });
+
+export default upload;
