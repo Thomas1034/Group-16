@@ -14,7 +14,7 @@ function ReviewPage() {
   const [snackbarMessage, setSnackbarMessage] = React.useState('');
 
 
-  // Check on load if already reviewed and set flag accordingly
+  // TODO: Check on load if already reviewed and set flag accordingly and make flag logic for edit button and load fields 
 
 
   const handleFormOpen = () => {
@@ -47,7 +47,7 @@ function ReviewPage() {
       rating: { rating: 5, number: 200 },
       comments: [
           { name: 'Bob', rating: 5, comment: 'This site is awesome!' },
-          { name: 'Robert', rating: 2.5, comment: 'This site stinks!!!' }
+          { name: 'Robert', rating: 1.5, comment: 'This site stinks!!!' }
       ]
   };
 
@@ -64,10 +64,10 @@ function ReviewPage() {
       <>
           <NavBar />
           <Container maxWidth="lg" sx={{ padding: 3 }}>
-              <Paper elevation={3} sx={{ padding: 3, borderRadius: 2 }}>
+              <Paper elevation={3} sx={{ padding: 3, borderRadius: 2, marginTop:3}}>
                   <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} alignItems="center">
                       <Box>
-                          <img src={sampleReviews.reviewImage} alt="Review" style={{ width: "100%", maxWidth: "400px", height: "auto", borderRadius: '8px' }} />
+                          <img src={sampleReviews.reviewImage} alt="Review" style={{ width: "100%", maxWidth: "400px", height: "auto"}} />
                       </Box>
                       <Stack sx={{width:'100%', alignItems:"center"}}>
                         <Stack direction="column" spacing={2} sx={{flexGrow: 1, maxWidth: 500, alignItems: "center"}}>
@@ -109,25 +109,22 @@ function ReviewPage() {
           </Container>
 
           <Dialog open={formOpen} onClose={handleFormClose} maxWidth="lg" fullWidth>
-                <DialogTitle>Write your review:</DialogTitle>
+                <DialogTitle>Add a Review</DialogTitle>
                 <DialogContent>
                     <Stack spacing={2}>
                         <Rating
                             precision={0.5}
-                            name="new-rating"
-                            value={newRating}
+                            value={newRating} // for editing later
                             onChange={(event, newValue) => {
                                 setNewRating(newValue);
                             }}
-                            sx={{marginBottom:20}}
                         />
                         <TextField
-                            label="Review"
+                            label="Write your review here..."
                             multiline
                             rows={4}
                             value={newReview}
                             onChange={(e) => setNewReview(e.target.value)}
-                            variant="outlined"
                             fullWidth
                         />
                     </Stack>
