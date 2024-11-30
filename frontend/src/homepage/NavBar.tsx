@@ -2,6 +2,8 @@ import * as React from 'react';
 import { AppBar, Snackbar, Toolbar, Typography, TextField, Button, InputBase, styled, alpha, Avatar, Stack, Container, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 
 const settings = ['Logout'];
 
@@ -32,6 +34,18 @@ const Search = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     color: 'black',
+  }));
+  
+  const AccountCircleIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    paddingTop: "5px", //sorry
+    height: '100%',
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'black',
+
   }));
   
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -92,7 +106,12 @@ function NavBar()
   };
 
   const handleLogin = () => {
+    // API CALL HERE
     handleCloseUserMenu();
+    const exampleUserID = 'exampleUserID'; // Replace with actual userID from your authentication logic
+    setUserID(exampleUserID);
+    localStorage.setItem('loggedIn', 'true');
+    localStorage.setItem('userID', exampleUserID);
     setTimeout(() => {
       setLoggedIn(true);
       setUserID(null);
@@ -104,7 +123,13 @@ function NavBar()
 
   const handleRegister = () => 
   {
-      handleLogin()
+        // API CALL HERE
+    // register returns user id too
+    const exampleUserID = 'exampleUserID'; // Replace with actual userID from your authentication logic
+    setUserID(exampleUserID);
+    localStorage.setItem('loggedIn', 'true');
+    localStorage.setItem('userID', exampleUserID);
+      handleLogin();
   }
 
   const handleLogout = () => {
@@ -136,9 +161,9 @@ function NavBar()
   }
     return (
         <AppBar position="fixed" style={{backgroundColor: "white"}}>
-        <Toolbar>
+        <Toolbar style={{width:"99%"}}>
           <Stack direction="row" justifyContent="space-between" style={{width: "100%", paddingLeft: "1%", paddingRight: "1%"}}>
-            <Typography variant="h4" style={{color:"black", fontWeight: "bold",}} onClick={() => navigate(`/`)}>
+            <Typography variant="h4" style={{color:"black", fontWeight: "bold", paddingTop:"5px"}} onClick={() => navigate(`/`)}>
               Manager Reviewer
             </Typography>
             <Search sx={{flexGrow: .45, marginRight: "15%"}}>
@@ -153,7 +178,8 @@ function NavBar()
 
               />
             </Search>
-            <Avatar style={{position:"relative", justifyContent: "right"}} alt="szum" src="https://online.stanford.edu/sites/default/files/styles/cropped_square/public/instructors/T001798-Szumlanski-Sean.jpg" onClick={handleOpenUserMenu}/>
+            <AccountCircleIconWrapper style={{position:"relative", justifyContent: "right"}}  onClick={handleOpenUserMenu}><AccountCircleIcon style={{cursor : 'pointer', fontSize : '2.6rem'}}/></AccountCircleIconWrapper>
+            
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
