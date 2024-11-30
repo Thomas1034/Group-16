@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { AppBar, Toolbar, Typography, InputBase, styled, alpha, Avatar, Stack, Container, Menu, MenuItem } from '@mui/material';
+import { AppBar, Snackbar, Toolbar, Typography, TextField, Button, InputBase, styled, alpha, Avatar, Stack, Container, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 
-const settings = ['Profile', 'Logout'];
+const settings = ['Logout'];
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -52,13 +52,26 @@ const Search = styled('div')(({ theme }) => ({
 // will need id later
 function NavBar()
 {
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [userID, setUserID] = React.useState<string | null>(null);
+
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [isSignup, setIsSignup] = React.useState(false);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState('');
+
+
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setIsSignup(false);
     setAnchorElUser(event.currentTarget);
   };
 
@@ -69,6 +82,44 @@ function NavBar()
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+
+  const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
+  const handleLogin = () => {
+    handleCloseUserMenu();
+    setTimeout(() => {
+      setLoggedIn(true);
+      setUserID(null);
+      setSnackbarMessage('You have successfully logged in!');
+      setSnackbarOpen(true);
+    }
+    , 500);
+  }
+
+  const handleRegister = () => 
+  {
+      handleLogin()
+  }
+
+  const handleLogout = () => {
+    handleCloseUserMenu();
+    setTimeout(() => {
+      setLoggedIn(false);
+      setUserID(null);
+      setSnackbarMessage('You have successfully logged out!');
+      setSnackbarOpen(true);
+    }, 500);
+  };
+
+  const setSignup = () => {
+    setIsSignup(true);
+  }
 
   const navigate = useNavigate();
 
@@ -119,14 +170,70 @@ function NavBar()
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                </MenuItem>
-              ))}
+            {loggedIn ? (
+              settings.map((setting) => (
+                <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Button variant="contained" color="error" onClick={handleLogout}>
+                Logout
+              </Button>
+              </div>
+                
+              ))
+            ) : (
+              <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <TextField
+                label="Username"
+                variant="outlined"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <TextField
+                label="Password"
+                type="password"
+                variant="outlined"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {isSignup && (
+                  <TextField
+                    label="Email"
+                    variant="outlined"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                )}
+
+              {/* Normal login */}
+              {!isSignup && (
+              <Button variant="contained" color="primary" onClick={handleLogin}>
+                Login
+              </Button>
+              )} 
+
+              {/* Signup toggle */}
+              {!isSignup && (
+                  <Button variant="outlined" color="secondary" onClick={setSignup}>
+                    Sign Up
+                  </Button>
+              )}
+
+              {/* Register */}
+              {isSignup && (
+                <Button variant="contained" color="primary" onClick={handleRegister}>
+                  Register
+                </Button>
+              )}
+            </div>
+            )}
             </Menu>
           </Stack>
         </Toolbar>
+        <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
       </AppBar>
     )
 }
