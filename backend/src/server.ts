@@ -24,6 +24,9 @@ mongoose.connect(process.env.MONGODB_URI!, {
 
 app.use(bodyParser.json());
 
+// Serve uploads folder statically.
+app.use('/uploads', express.static('uploads'));
+
 app.use('/api/auth', AuthRoute);
 app.use('/api/contact-managers', ManagerRoute);
 app.use('/api/reviews', ReviewRoute);
