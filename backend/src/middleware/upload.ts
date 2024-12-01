@@ -1,6 +1,7 @@
 import multer, { FileFilterCallback } from 'multer';
 import { Request } from 'express';
 import fs from 'fs';
+import path from 'path';
 
 type File = Express.Multer.File;
 const maxFileSize = 1024 * 1024 * 8; // 8MB
@@ -17,7 +18,8 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     // Generate a unique name for the file
     // Use the field name and current timestamp as the file name
-    const filename = `${file.fieldname}-${Date.now()}`;
+    const ext = path.extname(file.originalname);
+    const filename = `${file.fieldname}-${Date.now()}${ext}`;
 
     cb(null, filename);
   },
