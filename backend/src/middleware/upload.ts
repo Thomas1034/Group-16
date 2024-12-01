@@ -5,7 +5,7 @@ import fs from 'fs';
 type File = Express.Multer.File;
 const maxFileSize = 1024 * 1024 * 8; // 8MB
 const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-const uploadFolder = 'uploads';
+const uploadFolder = process.env.UPLOAD_FOLDER || 'uploads';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

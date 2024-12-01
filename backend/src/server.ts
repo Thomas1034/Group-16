@@ -12,6 +12,7 @@ import { Request, Response } from 'express';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const upload_dir = process.env.UPLOAD_DIR || 'uploads';
 
 dotenv.config();
 
@@ -25,7 +26,7 @@ mongoose.connect(process.env.MONGODB_URI!, {
 app.use(bodyParser.json());
 
 // Serve uploads folder statically.
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(upload_dir));
 
 app.use('/api/auth', AuthRoute);
 app.use('/api/contact-managers', ManagerRoute);
