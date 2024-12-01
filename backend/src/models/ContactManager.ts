@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { ObjectId } from "mongoose";
 
 const contactManagerSchema = new mongoose.Schema(
     {
@@ -49,11 +48,11 @@ const contactManagerSchema = new mongoose.Schema(
                 ]);
                 return contactManagers;
             },
-            async findManagerWithRating(id: ObjectId) {
+            async findManagerWithRating(id: mongoose.Types.ObjectId) {
                 const contactManager = await this.aggregate([
                     {
                         $match: {
-                            'name': id
+                            '_id': id
                         }
                     },
                     {
@@ -78,7 +77,7 @@ const contactManagerSchema = new mongoose.Schema(
                         $unset: "reviews", // Exclude the reviews array
                     },
                 ]);
-                return contactManager;
+                return contactManager[0] ?? null;
             },
         }
     }
