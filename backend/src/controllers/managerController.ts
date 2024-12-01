@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import ContactManager from '../models/ContactManager';
-import { generateToken } from '../middleware/tokens';
 import mongoose from 'mongoose';
 
 interface StringBearer {
@@ -61,20 +60,13 @@ export const get = async(req: Request<IdHolder, {}, {}, {}>, res: Response) => {
     try {
         const id = req.params.id;
 
-        if(!id) {
-            res.status(400).json({error: "Missing request ID"});
-            return;
-        }
-
         // Check if the ID is a valid ObjectId
-        if(!mongoose.Types.ObjectId.isValid(id)) {
+        if(!id || !mongoose.Types.ObjectId.isValid(id)) {
             res.status(400).json({error: "Invalid ID"});
             return;
         }
 
         const objectId = new mongoose.Types.ObjectId(id); 
-
-
         var manager = await ContactManager.findManagerWithRating(objectId);
 
         if(manager === null) {
