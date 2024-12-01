@@ -1,21 +1,29 @@
 import multer, { FileFilterCallback } from 'multer';
 import { Request } from 'express';
+import fs from 'fs';
 
 type File = Express.Multer.File;
 const maxFileSize = 1024 * 1024 * 8; // 8MB
+const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+const uploadFolder = 'uploads';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    // Create the uploads folder if it doesn't exist
+    fs.mkdirSync(uploadFolder, { recursive: true });
+
+    cb(null, uploadFolder);
   },
   filename: (req, file, cb) => {
-    const filename = `${Date.now()}-${file.originalname}`;
+    // Generate a unique name for the file
+    // Use the field name and current timestamp as the file name
+    const filename = `${file.fieldname}-${Date.now()}`;
+
     cb(null, filename);
   },
 });
 
 const fileFilter = (req: Request, file: File, cb: FileFilterCallback) => {
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     if (!allowedTypes.includes(file.mimetype)) {
       const error = new Error('Incorrect file type');
       return cb(error);

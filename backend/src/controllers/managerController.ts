@@ -26,6 +26,7 @@ export const create = async(req: Request, res: Response) => {
             author
         });
 
+        // Handle image upload
         if (req.file) {
             contactManager.image = req.file.filename;
         }
