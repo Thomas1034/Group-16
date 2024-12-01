@@ -27,7 +27,6 @@ app.use(bodyParser.json());
 // In production, Nginx will serve the static files. 
 if(env === 'development') {
     const upload_dir = process.env.UPLOAD_FOLDER || 'uploads';
-    console
     app.use('/uploads', express.static(upload_dir));
 }
 
