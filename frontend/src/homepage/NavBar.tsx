@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { AppBar, Snackbar, Toolbar, Typography, TextField, Button, InputBase, styled, alpha, Avatar, Stack, Container, Menu, MenuItem } from '@mui/material';
+import { AppBar, Snackbar, Toolbar, Typography, TextField, Button, InputBase, styled, alpha, Avatar, Stack, Container, Menu, MenuItem, IconButton } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
@@ -178,6 +179,7 @@ function NavBar()
 
               />
             </Search>
+            {(loggedIn) ? <IconButton style={{left: "5%"}} onClick={() => navigate(`/create?userId=${userID}`)}><AddBoxIcon style={{color: 'green'}}/></IconButton> : <></>}
             <AccountCircleIconWrapper style={{position:"relative", justifyContent: "right"}}  onClick={handleOpenUserMenu}><AccountCircleIcon style={{cursor : 'pointer', fontSize : '2.6rem'}}/></AccountCircleIconWrapper>
             
             <Menu
