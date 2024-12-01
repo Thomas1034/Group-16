@@ -28,9 +28,9 @@ app.use(bodyParser.json());
 // Serve uploads folder statically.
 app.use('/uploads', express.static(upload_dir));
 
-app.use('/api/auth', AuthRoute);
-app.use('/api/contact-managers', ManagerRoute);
-app.use('/api/reviews', ReviewRoute);
+app.use('/auth', AuthRoute);
+app.use('/contact-managers', ManagerRoute);
+app.use('/reviews', ReviewRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
