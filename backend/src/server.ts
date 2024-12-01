@@ -1,7 +1,7 @@
+import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 
 import AuthRoute from './routes/authRoute';
 import ManagerRoute from './routes/managerRoute';
@@ -12,9 +12,7 @@ import { Request, Response } from 'express';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const upload_dir = process.env.UPLOAD_DIR || 'uploads';
-
-dotenv.config();
+const env = process.env.NODE_ENV || 'development';
 
 mongoose.connect(process.env.MONGODB_URI!, {
 }).then(() => {
@@ -25,8 +23,13 @@ mongoose.connect(process.env.MONGODB_URI!, {
 
 app.use(bodyParser.json());
 
-// Serve uploads folder statically.
-app.use('/uploads', express.static(upload_dir));
+// Serve static files in development.
+// In production, Nginx will serve the static files. 
+if(env === 'development') {
+    const upload_dir = process.env.UPLOAD_FOLDER || 'uploads';
+    console
+    app.use('/uploads', express.static(upload_dir));
+}
 
 app.use('/auth', AuthRoute);
 app.use('/contact-managers', ManagerRoute);
