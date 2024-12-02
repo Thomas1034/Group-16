@@ -135,6 +135,7 @@ function NavBar()
     // API CALL HERE
     var user = {'username': username, 'password': password};
     var id = await login(user);
+    id = id.token;
     if (id.length == 0)
     {
       return;
@@ -182,6 +183,7 @@ function NavBar()
     }
     var user = {'username': username, 'password': password, 'email': email};
     var id = await register(user);
+    id = id.token;
     if (id.length == 0)
     {
       return;
