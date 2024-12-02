@@ -82,6 +82,7 @@ export const editReview = async(req: Request, res: Response) => {
 export const deleteReview = async(req: Request, res: Response) => {
     try {
         const review_id = req.params.id;
+        const author = req.user_id;
 
         await Review.findByIdAndDelete(review_id);
         res.sendStatus(201);
