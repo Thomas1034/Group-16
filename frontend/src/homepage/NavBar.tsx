@@ -132,7 +132,7 @@ function NavBar()
 
   const register = async(user: any) =>
   {
-    const url = `${window.URL}/api/auth/register/`;
+    const url = `${window.location.origin}/api/auth/register`;
     return fetch(url, {
       method: "POST",
       body: JSON.stringify(user)
