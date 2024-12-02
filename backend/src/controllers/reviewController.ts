@@ -83,9 +83,27 @@ export const deleteReview = async(req: Request, res: Response) => {
     try {
         const review_id = req.params.id;
         const author = req.user_id;
+        
+        // Check if the review_id is valid
+        if (!review_id || !mongoose.Types.ObjectId.isValid(review_id)) {
+            res.status(401).json({error: "Missing required fields"});
+            return;
+        }
 
-        await Review.findByIdAndDelete(review_id);
-        res.sendStatus(201);
+        const review = await Review.findById(review_id);
+
+        if(!review) {
+            res.status(404).json({error: "Review not found"});
+            return;
+        }
+
+        if (review.userId != author) {
+            res.status(401).json({error: "Unauthorized"});;
+            return
+        }
+        
+        await review.deleteOne();
+        res.sendStatus(204);
 
     } catch (error) {
         res.status(500).json({error: "Internal server error."});
