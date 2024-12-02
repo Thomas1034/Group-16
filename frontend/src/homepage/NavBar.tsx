@@ -121,7 +121,7 @@ function NavBar()
       }).then((res) => {
           if (res.status === 200) return res.json();
           else if (res.status === 404) return "";
-          else throw new Error(`Got unexpected reponse status ${res.status} from search endpoint`);
+          else throw new Error(`Got unexpected reponse status ${res.status} from login endpoint`);
       });
   }
 
@@ -168,7 +168,7 @@ function NavBar()
       }).then((res) => {
           if (res.status === 200) return res.json();
           else if (res.status === 404) return "";
-          else throw new Error(`Got unexpected reponse status ${res.status} from search endpoint`);
+          else throw new Error(`Got unexpected reponse status ${res.status} from register endpoint`);
       });
   }
 
