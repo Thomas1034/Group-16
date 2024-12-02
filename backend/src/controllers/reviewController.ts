@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Review from '../models/Review';
+import mongoose from 'mongoose';
 
 interface IdHolder {
     id?: string;
@@ -35,8 +36,9 @@ export const openReview = async(req: Request<IdHolder, {}, {}, {}>, res: Respons
   try {
     const id = req.params.id;
 
-    if(!id) {
-      res.status(400).json({error: "Missing request ID"});
+    // Check if the ID is a valid ObjectId
+    if(!id || !mongoose.Types.ObjectId.isValid(id)) {
+      res.status(400).json({error: "Invalid request ID"});
       return;
     }
 
