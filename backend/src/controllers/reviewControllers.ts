@@ -28,23 +28,23 @@ export const createReview = async(req: Request, res: Response) => {
     }
 };
 
-export const openReview = async(req: Request, res: Response) => {
-    try {
-        // need to figure out how to send back list of reviews
-        const contact_id = req.params.id;
+export const openReview = async(req: Request<IdHolder, {}, {}, {}>, res: Response) => {
+  try {
+    const { query } = req;
+        const id = req.params.id;
 
-        const reviews = await Review.findById(contact_id);
-
-        if (!reviews) {
-            res.status(404).json({error: "Review not found"});
-            return;
-        }
-
-        res.sendStatus(201);
-
-    } catch (error) {
-        res.status(500).json({error: "Internal server error."});
+    if(!id) {
+      res.status(400).json({error: "Missing request ID"});
+      return;
     }
+    var reviews = await Review.find({contactManagerId: id}).then(function (dataArray) {
+      return dataArray?.length != 0 ? dataArray : undefined;
+    });
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.log("reviewController.ts encountered an unexpected error:\n" + error);
+    res.status(500).json({error: "Internal server error."});
+  }
 };
 
 export const editReview = async(req: Request, res: Response) => {
