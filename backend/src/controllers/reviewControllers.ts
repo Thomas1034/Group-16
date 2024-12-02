@@ -2,6 +2,10 @@ import { Request, Response } from 'express';
 import Review from '../models/Review';
 import { generateToken } from '../middleware/tokens';
 
+interface IdHolder {
+    id?: string;
+}
+
 export const createReview = async(req: Request, res: Response) => {
     try {
         const { contactManagerId, rating, body } = req.body;
