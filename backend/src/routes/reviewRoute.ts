@@ -5,7 +5,7 @@ import { authenticateToken } from '../middleware/tokens';
 const router = express.Router();
 
 router.post('/', authenticateToken, ReviewController.createReview);
-router.get('/contact-manager/:contactManagerId', authenticateToken, ReviewController.openReview);
+router.get('/contact-manager/:contactManagerId', ReviewController.openReview);
 router.put('/:id', authenticateToken, ReviewController.editReview);
 router.delete('/:id', authenticateToken, ReviewController.deleteReview);
 
