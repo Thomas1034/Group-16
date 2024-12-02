@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import ContactManager from '../models/ContactManager';
-import { generateToken } from '../middleware/tokens';
+import mongoose from 'mongoose';
 
 interface StringBearer {
     page?: string;
@@ -13,8 +13,8 @@ interface IdHolder {
 export const create = async(req: Request, res: Response) => {
     try {
         const { name, image, url } = req.body;
-				const author = req.user_id;
-				
+        const author = req.user_id;
+
         if(!name || !image || !url || !author) {
             res.status(400).json({error: "Missing required fields"});
             return;
@@ -38,21 +38,19 @@ export const create = async(req: Request, res: Response) => {
 export const getAll = async(req: Request<{}, {}, {}, StringBearer>, res: Response) => {
     try {
         const { query } = req;
-				const page = query.page;
+        const page = query.page;
 
         if(!page) {
             res.status(400).json({error: "Missing required fields"});
             return;
         }
-				
-				
-				var allManagers = await ContactManager.find({}).then(function (dataArray) {
-					return dataArray;
-				});
-				
+
+
+        var allManagers = await ContactManager.findAllManagersWithAvgRating();
+
         res.status(201).json(allManagers);
     } catch (error) {
-				console.log("managerController.ts encountered an unexpected error:\n" + error);
+        console.log("managerController.ts encountered an unexpected error:\n" + error);
         res.status(500).json({error: "Internal server error."});
     }
 };
@@ -60,26 +58,26 @@ export const getAll = async(req: Request<{}, {}, {}, StringBearer>, res: Respons
 
 export const get = async(req: Request<IdHolder, {}, {}, {}>, res: Response) => {
     try {
-        const { query } = req;
-				const id = req.params.id;
+        const id = req.params.id;
 
-        if(!id) {
-            res.status(400).json({error: "Missing request ID"});
+        // Check if the ID is a valid ObjectId
+        if(!id || !mongoose.Types.ObjectId.isValid(id)) {
+            res.status(400).json({error: "Invalid ID"});
             return;
         }
-				
-				// TODO
-				var manager = await ContactManager.find({_id: id}).then(function (dataArray) {
-					return dataArray?.length == 1 ? dataArray[0] : undefined;
-				});
-				
-				if (undefined == manager) {
-						res.status(404).json({error: "Contact manager not found"});
-				} else {
-						res.status(200).json(manager);
-				}
+
+        const objectId = new mongoose.Types.ObjectId(id); 
+        var manager = await ContactManager.findManagerWithRating(objectId);
+
+        if(manager === null) {
+            res.status(404).json({error: "Manager not found"});
+            return;
+        }
+
+        res.status(201).json(manager);
+
     } catch (error) {
-				console.log("managerController.ts encountered an unexpected error:\n" + error);
+        console.log("managerController.ts encountered an unexpected error:\n" + error);
         res.status(500).json({error: "Internal server error."});
     }
 };
