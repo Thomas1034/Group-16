@@ -38,7 +38,7 @@ export const openReview = async(req: Request<IdHolder, {}, {}, {}>, res: Respons
       return;
     }
     var reviews = await Review.find({contactManagerId: id}).then(function (dataArray) {
-      return dataArray?.length != 0 ? dataArray : undefined;
+      return dataArray;
     });
     res.status(200).json(reviews);
   } catch (error) {
