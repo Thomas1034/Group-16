@@ -97,7 +97,7 @@ export const deleteReview = async(req: Request, res: Response) => {
             return;
         }
 
-        if (review.userId !== author) {
+        if (review.userId != author) {
             res.status(401).json({error: "Unauthorized"});;
             return
         }
