@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import Review from '../models/Review';
-import { generateToken } from '../middleware/tokens';
 
 interface IdHolder {
     id?: string;
@@ -34,17 +33,16 @@ export const createReview = async(req: Request, res: Response) => {
 
 export const openReview = async(req: Request<IdHolder, {}, {}, {}>, res: Response) => {
   try {
-    const { query } = req;
-        const id = req.params.id;
+    const id = req.params.id;
 
     if(!id) {
       res.status(400).json({error: "Missing request ID"});
       return;
     }
-    var reviews = await Review.find({contactManagerId: id}).then(function (dataArray) {
-      return dataArray;
-    });
+
+    var reviews = await Review.find({contactManagerId: id})
     res.status(200).json(reviews);
+
   } catch (error) {
     console.log("reviewController.ts encountered an unexpected error:\n" + error);
     res.status(500).json({error: "Internal server error."});
