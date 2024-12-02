@@ -80,6 +80,8 @@ function NavBar()
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState('');
 
+  const [registerError, setRegisterError] = React.useState(false);
+
 
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -107,6 +109,8 @@ function NavBar()
   };
 
   const handleLogin = () => {
+    // API
+    
     // API CALL HERE
     handleCloseUserMenu();
     const exampleUserID = 'exampleUserID'; // Replace with actual userID from your authentication logic
@@ -122,15 +126,41 @@ function NavBar()
     , 500);
   }
 
-  const handleRegister = () => 
+  /*
+  {username: x, password: pswd, email: email@.com}
+  */
+
+  const register = async(user: any) =>
   {
-        // API CALL HERE
-    // register returns user id too
-    const exampleUserID = 'exampleUserID'; // Replace with actual userID from your authentication logic
-    setUserID(exampleUserID);
+    const url = `${window.URL}/api/auth/register/`;
+    return fetch(url, {
+      method: "POST",
+      body: JSON.stringify(user)
+      }).then((res) => {
+          if (res.status === 200) return res.json();
+          else if (res.status === 404) return "";
+          else throw new Error(`Got unexpected reponse status ${res.status} from search endpoint`);
+      });
+  }
+
+  const handleRegister = async() => 
+  {
+    // API CALL HERE
+    if (username.length == 0 || password.length == 0 || email.length == 0)
+    {
+      setRegisterError(true);
+      return;
+    }
+    var user = {'username': username, 'password': password, 'email': email};
+    var id = await register(user);
+    if (id.length == 0)
+    {
+      return;
+    }
+    setUserID(id);
     localStorage.setItem('loggedIn', 'true');
-    localStorage.setItem('userID', exampleUserID);
-      handleLogin();
+    localStorage.setItem('userID', id);
+    handleLogin();
   }
 
   const handleLogout = () => {
@@ -230,6 +260,7 @@ function NavBar()
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 )}
+                {(registerError) ? <Typography style={{color: 'red'}}>Fill in all fields</Typography> : <></>}
 
               {/* Normal login */}
               {!isSignup && (
