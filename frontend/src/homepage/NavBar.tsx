@@ -81,6 +81,7 @@ function NavBar()
   const [snackbarMessage, setSnackbarMessage] = React.useState('');
 
   const [registerError, setRegisterError] = React.useState(false);
+  const [loginError, setLoginError] = React.useState(false);
 
 
 
@@ -108,15 +109,40 @@ function NavBar()
     setSnackbarOpen(false);
   };
 
-  const handleLogin = () => {
+  const login = async(user: any) =>
+  {
+    const url = `${window.location.origin}/api/auth/login`;
+    return fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(user)
+      }).then((res) => {
+          if (res.status === 200) return res.json();
+          else if (res.status === 404) return "";
+          else throw new Error(`Got unexpected reponse status ${res.status} from search endpoint`);
+      });
+  }
+
+  const handleLogin = async() => {
     // API
-    
+    if (username.length == 0 || password.length == 0)
+    {
+      setLoginError(true);
+      return;
+    }
     // API CALL HERE
+    var user = {'username': username, 'password': password};
+    var id = await login(user);
+    if (id.length == 0)
+    {
+      return;
+    }
     handleCloseUserMenu();
-    const exampleUserID = 'exampleUserID'; // Replace with actual userID from your authentication logic
-    setUserID(exampleUserID);
+    setUserID(id);
     localStorage.setItem('loggedIn', 'true');
-    localStorage.setItem('userID', exampleUserID);
+    localStorage.setItem('userID', id);
     setTimeout(() => {
       setLoggedIn(true);
       setUserID(null);
@@ -134,6 +160,9 @@ function NavBar()
   {
     const url = `${window.location.origin}/api/auth/register`;
     return fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       method: "POST",
       body: JSON.stringify(user)
       }).then((res) => {
@@ -251,7 +280,7 @@ function NavBar()
                 variant="outlined"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
+              /> {(loginError && !isSignup) ? <Typography style={{color: 'red'}}>Fill in all fields</Typography> : <></>}
               {isSignup && (
                   <TextField
                     label="Email"
@@ -260,7 +289,7 @@ function NavBar()
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 )}
-                {(registerError) ? <Typography style={{color: 'red'}}>Fill in all fields</Typography> : <></>}
+                {(registerError && isSignup) ? <Typography style={{color: 'red'}}>Fill in all fields</Typography> : <></>}
 
               {/* Normal login */}
               {!isSignup && (
