@@ -8,8 +8,7 @@ const contactManagerSchema = new mongoose.Schema(
         },
         image: {
             type: String,
-            default: null,
-            required: false,
+            required: true,
         },
         url: {
             type: String,
