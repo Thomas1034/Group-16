@@ -83,8 +83,20 @@ export const deleteReview = async(req: Request, res: Response) => {
     try {
         const review_id = req.params.id;
         const author = req.user_id;
+        
+        if (!author || !review_id) {
+            res.status(401).json({error: "Missing required fields"});
+            return;
+        }
 
-        await Review.findByIdAndDelete(review_id);
+        const review = await Review.findById(review_id);
+
+        if (review.userId != author) {
+            review.delete();
+        } else {
+            throw new Error("User " + author + " doesn't own this review.");
+        }
+        
         res.sendStatus(201);
 
     } catch (error) {
