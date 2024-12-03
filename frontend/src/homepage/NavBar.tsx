@@ -120,7 +120,7 @@ function NavBar()
       method: "POST",
       body: JSON.stringify(user)
       }).then((res) => {
-          if (res.status === 200) return res.json();
+          if (res.status === 201) return res.json();
           else if (res.status === 404) return "";
           else throw new Error(`Got unexpected reponse status ${res.status} from login endpoint`);
       });
@@ -165,7 +165,7 @@ function NavBar()
       method: "POST",
       body: JSON.stringify(user)
       }).then((res) => {
-          if (res.status === 200) return res.json();
+          if (res.status === 201) return res.json();
           else if (res.status === 404) return "";
           else throw new Error(`Got unexpected reponse status ${res.status} from register endpoint`);
       });
@@ -221,7 +221,7 @@ function NavBar()
     return fetch(url, {
       method: "GET"
       }).then((res) => {
-          if (res.status === 200) return res.json();
+          if (res.status === 201) return res.json();
           else if (res.status === 404) return "";
           else throw new Error(`Got unexpected reponse status ${res.status} from search endpoint`);
       });
