@@ -82,6 +82,7 @@ function NavBar()
 
   const [registerError, setRegisterError] = React.useState(false);
   const [loginError, setLoginError] = React.useState(false);
+  const [registerErrorMsg, setRegisterErrorMsg] = React.useState("Fill in fields");
 
 
 
@@ -153,9 +154,6 @@ function NavBar()
     , 500);
   }
 
-  /*
-  {username: x, password: pswd, email: email@.com}
-  */
 
   const register = async(user: any) =>
   {
@@ -179,6 +177,13 @@ function NavBar()
     if (username.length == 0 || password.length == 0 || email.length == 0)
     {
       setRegisterError(true);
+      setRegisterErrorMsg("Fill in all fields");
+      return;
+    }
+    else if (password.length < 6)
+    {
+      setRegisterError(true);
+      setRegisterErrorMsg("Password must be 6+ characters");
       return;
     }
     var user = {'username': username, 'password': password, 'email': email};
@@ -291,7 +296,7 @@ function NavBar()
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 )}
-                {(registerError && isSignup) ? <Typography style={{color: 'red'}}>Fill in all fields</Typography> : <></>}
+                {(registerError && isSignup) ? <Typography style={{color: 'red'}}>{registerErrorMsg}</Typography> : <></>}
 
               {/* Normal login */}
               {!isSignup && (
