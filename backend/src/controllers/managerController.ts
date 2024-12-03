@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import ContactManager from '../models/ContactManager';
 import mongoose from 'mongoose';
 
-interface StringBearer {
+interface ManagerQuery {
     page?: string;
+    search?: string;
 }
 
 interface IdHolder {
@@ -39,18 +40,18 @@ export const create = async(req: Request, res: Response) => {
 };
 
 
-export const getAll = async(req: Request<{}, {}, {}, StringBearer>, res: Response) => {
+export const getAll = async(req: Request<{}, {}, {}, ManagerQuery>, res: Response) => {
     try {
         const { query } = req;
-        const page = query.page;
+        const { page, search } = query;
 
         if(!page) {
             res.status(400).json({error: "Missing required fields"});
             return;
         }
 
-
-        var allManagers = await ContactManager.findAllManagersWithAvgRating();
+        // Search is optional, this will return all managers if not provided
+        var allManagers = await ContactManager.findAllManagersWithAvgRating(search);
 
         res.status(201).json(allManagers);
     } catch (error) {

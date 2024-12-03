@@ -23,8 +23,14 @@ const contactManagerSchema = new mongoose.Schema(
     { 
         statics: {
             // Find contact manager w/ average rating
-            async findAllManagersWithAvgRating() {
+            async findAllManagersWithAvgRating(searchQuery?: string) {
                 const contactManagers = await this.aggregate([
+                    // Only include a search query object if a search query is provided
+                    ...(searchQuery ? [{
+                        $match: {
+                            name: { $regex: searchQuery, $options: "i" },
+                        },
+                    }]: []),
                     {
                         $lookup: {
                             from: "reviews",
