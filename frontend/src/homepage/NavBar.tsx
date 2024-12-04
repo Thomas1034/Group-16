@@ -172,7 +172,6 @@ function NavBar()
       method: "POST",
       body: JSON.stringify(user)
       }).then((res) => {
-        console.log(res.status)
           if (res.status === 201) return res.json();
           else if (res.status === 400) 
             {
@@ -203,6 +202,7 @@ function NavBar()
     var user = {'username': username, 'password': password, 'email': email};
     var id = await register(user);
     id = id.token;
+    localStorage.setItem('realUserId', id.id);
     if (id.length == 0)
     {
       return;
