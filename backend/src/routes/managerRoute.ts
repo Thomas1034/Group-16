@@ -8,5 +8,6 @@ const router = express.Router();
 router.post('/', authenticateToken, upload.single('image'), ManagerController.create);
 router.get('/', ManagerController.getAll);
 router.get('/:id', ManagerController.get);
+router.delete('/:id', authenticateToken, ManagerController.deleteManager);
 
 export default router;
