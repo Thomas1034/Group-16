@@ -34,6 +34,10 @@ function Homepage() {
     fetchContactManagers();
   }, []);
 
+  React.useEffect(() => {
+    document.title = "Contact Crucible";
+  }, []);
+  
   return (
     <>
       <NavBar />

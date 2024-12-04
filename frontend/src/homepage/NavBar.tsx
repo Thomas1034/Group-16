@@ -2,6 +2,7 @@ import * as React from 'react';
 import { AppBar, Snackbar, Toolbar, Typography, TextField, Button, InputBase, styled, alpha, Avatar, Stack, Container, Menu, MenuItem, IconButton } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
+import PersonIcon from '@mui/icons-material/Person'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -121,6 +122,12 @@ function NavBar()
       body: JSON.stringify(user)
       }).then((res) => {
           if (res.status === 200) return res.json();
+          else if (res.status === 401) 
+            {
+              setSnackbarMessage('Invalid login credentials');
+              setSnackbarOpen(true);
+              return;
+            }
           else if (res.status === 404) return "";
           else throw new Error(`Got unexpected reponse status ${res.status} from login endpoint`);
       });
@@ -165,7 +172,14 @@ function NavBar()
       method: "POST",
       body: JSON.stringify(user)
       }).then((res) => {
+        console.log(res.status)
           if (res.status === 201) return res.json();
+          else if (res.status === 400) 
+            {
+              setSnackbarMessage('This username is already taken!');
+              setSnackbarOpen(true);
+              return;
+            }
           else if (res.status === 404) return "";
           else throw new Error(`Got unexpected reponse status ${res.status} from register endpoint`);
       });
@@ -246,7 +260,7 @@ function NavBar()
               />
             </Search>
             {(loggedIn) ? <IconButton style={{left: "5%"}} onClick={() => navigate(`/create?userId=${userID}`)}><AddBoxIcon style={{color: 'green'}}/></IconButton> : <></>}
-            <AccountCircleIconWrapper style={{position:"relative", justifyContent: "right"}}  onClick={handleOpenUserMenu}><AccountCircleIcon style={{cursor : 'pointer', fontSize : '2.6rem'}}/></AccountCircleIconWrapper>
+            <AccountCircleIconWrapper style={{position:"relative", justifyContent: "right"}}  onClick={handleOpenUserMenu}>{(!loggedIn) ?  <AccountCircleIcon style={{cursor : 'pointer', fontSize : '2.6rem'}}/> : <PersonIcon style={{color: 'primary.main', cursor : 'pointer', fontSize : '2.6rem'}}/>}</AccountCircleIconWrapper>
             
             <Menu
               sx={{ mt: '45px' }}
