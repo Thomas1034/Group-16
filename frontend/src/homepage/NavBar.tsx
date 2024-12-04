@@ -246,15 +246,15 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
         <AppBar position="fixed" style={{backgroundColor: "white"}}>
         <Toolbar style={{width:"99%"}}>
           <Stack direction="row" justifyContent="space-between" style={{width: "100%", paddingLeft: "1%", paddingRight: "1%"}}>
-            <Typography variant="h4" style={{color:"black", fontWeight: "bold", paddingTop:"5px"}} onClick={() => navigate(`/`)}>
-              Manager Reviewer
+            <Typography variant="h4" sx={{background:"#444444"}} style={{border:"2px solid black", paddingLeft:"10px", paddingBottom:"2px",paddingRight:"10px",borderRadius:"7px", color:"white", fontWeight: "bold", paddingTop:"5px",  cursor: 'pointer' }} onClick={() => navigate(`/`)}>
+              Contact Crucible
             </Typography>
             <Search sx={{flexGrow: .45, marginRight: "15%"}}>
               <SearchIconWrapper>
                 <SearchIcon/>
               </SearchIconWrapper>
               <StyledInputBase
-                sx={{flexGrow: 1,}}
+                sx={{flexGrow: 1, paddingTop:"5px", fontSize:"1rem"}}
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
                 onChange = {(e) => PerformSearch(e)}
@@ -262,7 +262,7 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
               />
             </Search>
             {(loggedIn) ? <IconButton style={{left: "5%", borderRadius:"5px"}}  onClick={() => navigate(`/create?userId=${userID}`)}><Stack direction="row" sx={{borderRadius: "5px", border:"2px solid grey"}}><Typography fontWeight="bold" paddingLeft="10px" paddingRight="10px" sx={{color:'green'}}>Add a Manager</Typography><AddBoxIcon style={{color: 'green'}}/></Stack></IconButton> : <></>}
-            <AccountCircleIconWrapper style={{position:"relative", justifyContent: "right"}}  onClick={handleOpenUserMenu}>{(!loggedIn) ?  <AccountCircleIcon style={{cursor : 'pointer', fontSize : '2.6rem'}}/> : <PersonIcon style={{color: 'primary.main', cursor : 'pointer', fontSize : '2.6rem'}}/>}</AccountCircleIconWrapper>
+            <AccountCircleIconWrapper style={{position:"relative", justifyContent: "right"}}  onClick={handleOpenUserMenu}>{(!loggedIn) ?  <AccountCircleIcon style={{cursor : 'pointer', fontSize : '3rem'}}/> : <PersonIcon style={{color: 'primary.main', cursor : 'pointer', fontSize : '3rem'}}/>}</AccountCircleIconWrapper>
             
             <Menu
               sx={{ mt: '45px' }}

@@ -64,7 +64,7 @@ function Homepage() {
             </Box>
           </Stack>
 
-          <KeyboardArrowDownIcon sx={{ fontSize: 40, marginTop: 2, cursor: 'pointer' }} />
+          <KeyboardArrowDownIcon sx={{ fontSize: 40, marginTop: 2}} />
 
         <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', marginTop: 10, marginBottom: 2 }}>
           Contact Managers
