@@ -232,13 +232,19 @@ function ReviewPage() {
               />
             </Box>
             <Stack sx={{ width: "100%", alignItems: "center" }}>
-              <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>
+              <Typography variant="h2" component="h1" sx={{ fontWeight: "bold", marginBottom:"30px"}}>
                 {manager.name}
               </Typography>
-              <Typography variant="body1" sx={{ color: "text.secondary" }}>
-                {manager.author}
+              <Typography variant="body1" sx={{ color: "text.secondary", marginBottom:"30px"}}>
+                By: {manager.author}
               </Typography>
-              <Rating size="large" value={manager.avgRating} precision={0.1} readOnly />
+              <Rating size="large" sx={{marginBottom:"20px"}} value={manager.avgRating} precision={0.1} readOnly />
+              <Stack direction="row" sx={{marginTop: "10px"}}>
+              {manager.url && (
+                <Button variant="contained" sx={{marginRight: "100px"}}color="primary" onClick={() => window.open(`http://${manager.url}`, '_blank')}>
+                  Visit Site
+                </Button>
+              )}
               { (!update) ? 
               <Button variant="contained" color="primary" onClick={handleFormOpen}>
                 Add Review
@@ -246,6 +252,7 @@ function ReviewPage() {
                 Update Review
               </Button>
                 }
+            </Stack>
             </Stack>
           </Stack>
         </Paper>
