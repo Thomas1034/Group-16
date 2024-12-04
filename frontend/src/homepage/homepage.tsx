@@ -67,7 +67,7 @@ function Homepage() {
           <KeyboardArrowDownIcon sx={{ fontSize: 40, marginTop: 2, cursor: 'pointer' }} />
 
         <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', marginTop: 10, marginBottom: 2 }}>
-          All Contact Managers
+          Contact Managers
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
           {contactList.map((contact) => (
