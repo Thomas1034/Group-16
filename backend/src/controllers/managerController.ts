@@ -34,7 +34,7 @@ export const create = async(req: Request, res: Response) => {
         }
 
         await contactManager.save();
-        res.sendStatus(201);
+        res.status(201).json({id: contactManager._id});
     } catch (error) {
         res.status(500).json({error: "Internal server error."});
     }
