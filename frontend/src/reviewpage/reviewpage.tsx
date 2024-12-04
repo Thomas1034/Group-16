@@ -23,7 +23,10 @@ let manager = {
   name: "test",
   image: "test",
   url: null,
-  author: "test",
+  author: {
+    _id: "string",
+    username: "temp"
+  },
   avgRating: 0,
   totalReviews: 0,
 };
@@ -247,7 +250,7 @@ function ReviewPage() {
                 {manager.name}
               </Typography>
               <Typography variant="body1" sx={{ color: "text.secondary", marginBottom:"30px"}}>
-                By: {manager.author}
+                By: {manager.author.username}
               </Typography>
               <Rating size="large" sx={{marginBottom:"20px"}} value={manager.avgRating} precision={0.1} readOnly />
               <Stack direction="row" sx={{marginTop: "10px"}}>
