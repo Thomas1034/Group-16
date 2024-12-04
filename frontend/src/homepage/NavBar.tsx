@@ -143,6 +143,7 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
     // API CALL HERE
     var user = {'username': username, 'password': password};
     var id = await login(user);
+    localStorage.setItem('realUserId', id.id);
     id = id.token;
     if (id.length == 0)
     {
@@ -202,6 +203,7 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
     var user = {'username': username, 'password': password, 'email': email};
     var id = await register(user);
     id = id.token;
+    console.log(id.id);
     localStorage.setItem('realUserId', id.id);
     if (id.length == 0)
     {

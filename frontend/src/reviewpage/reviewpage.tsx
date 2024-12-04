@@ -67,7 +67,8 @@ async function fetchReviews(managerId: string) {
 function ReviewPage() {
   const [searchParams] = useSearchParams();
   const managerId = searchParams.get("id");
-  const userId = localStorage.getItem('userID');
+  const userId = localStorage.getItem('realUserId');
+  console.log(userId);
   const [formOpen, setFormOpen] = React.useState(false);
   const [newRating, setNewRating] = React.useState<number | null>(null);
   const [newReview, setNewReview] = React.useState("");
@@ -77,6 +78,7 @@ function ReviewPage() {
   const [reviews, setReviews] = React.useState([]);
   const [update, setUpdate] = React.useState(false);
   const [updateForm, setUpdateForm] = React.useState(false);
+  const [reviewId, setReviewId] = React.useState("");
 
   React.useEffect(() => {
     if (managerId) {
@@ -91,11 +93,12 @@ function ReviewPage() {
 
   React.useEffect(() => {
     reviews.forEach((r) => {
-        if (r.userId === userId)
+        if (r.userId._id === userId)
         {
             setNewRating(r.rating);
             setNewReview(r.body);
             setUpdate(true);
+            setReviewId(r._id);
         }
     })
   }, [reviews]);
@@ -107,6 +110,7 @@ function ReviewPage() {
   const handleFormClose = () => {
     setFormOpen(false);
   };
+
 
   const handleSubmit = async () => {
     if (newRating === null) {
@@ -143,6 +147,44 @@ function ReviewPage() {
       setSnackbarMessage("Error submitting review.");
     }
     setFormOpen(false);
+    setSnackbarOpen(true);
+    setUpdateForm(false);
+  };
+
+  const handleUpdate = async () => {
+    if (newRating === null) {
+      setSnackbarMessage("Please input a star rating.");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    const reviewData = {
+      rating: newRating,
+      body: newReview,
+    };
+
+    const token = localStorage.getItem("userID");
+    try {
+      const response = await fetch(`http://localhost:5001/api/reviews/${reviewId}`, {
+        method: "PUT",
+        headers: {
+          accept: "*/*",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(reviewData),
+      });
+
+      if (response.ok) {
+        setSnackbarMessage("Review submitted!");
+        fetchReviews(managerId!).then((data) => setReviews(data)); // Reload reviews
+      } else {
+        setSnackbarMessage("Failed to submit review.");
+      }
+    } catch (error) {
+      setSnackbarMessage("Error submitting review.");
+    }
+    setUpdateForm(false);
     setSnackbarOpen(true);
   };
 
@@ -215,7 +257,7 @@ function ReviewPage() {
             reviews.map((review) => (
               <Paper key={review.id} elevation={3} sx={{ padding: 2 }}>
                 <Stack direction="row" alignItems="center" spacing={2}>
-                    <Paper style={{backgroundColor: "lightgray"}}><Typography>{review.userId}</Typography></Paper>
+                    <Paper style={{backgroundColor: "lightgray"}}><Typography>{review.userId.username}</Typography></Paper>
                   <Rating value={review.rating} precision={0.5} readOnly />
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {review.body}
@@ -252,10 +294,10 @@ function ReviewPage() {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleFormClose} color="secondary">
+          <Button onClick={() => setUpdateForm(false)} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} color="primary" variant="contained">
+          <Button onClick={handleUpdate} color="primary" variant="contained">
             Submit
           </Button>
         </DialogActions>
