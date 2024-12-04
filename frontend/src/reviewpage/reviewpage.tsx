@@ -22,7 +22,7 @@ let manager = {
   _id: "temp",
   name: "test",
   image: "test",
-  url: "test",
+  url: null,
   author: "test",
   avgRating: 0,
   totalReviews: 0,
@@ -226,7 +226,7 @@ function ReviewPage() {
           >
             <Box>
               <img
-                src={manager.image}
+                src={`https://contactcrucible.xyz/uploads/${manager.image}`}
                 alt="Review"
                 style={{ width: "100%", maxWidth: "400px", height: "auto" }}
               />
@@ -238,7 +238,7 @@ function ReviewPage() {
               <Typography variant="body1" sx={{ color: "text.secondary" }}>
                 {manager.author}
               </Typography>
-              <Rating size="large" value={manager.avgRating} precision={0.5} readOnly />
+              <Rating size="large" value={manager.avgRating} precision={0.1} readOnly />
               { (!update) ? 
               <Button variant="contained" color="primary" onClick={handleFormOpen}>
                 Add Review

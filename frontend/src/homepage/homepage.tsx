@@ -7,6 +7,8 @@ import ReviewContainer from './ReviewContainer';
 import {useNavigate} from "react-router-dom";
 import NavBar from './NavBar.tsx';
 
+
+
 function Homepage() {
   const navigate = useNavigate();
   const [contactList, setContactList] = React.useState([]);
@@ -73,7 +75,7 @@ function Homepage() {
           {contactList.map((contact) => (
             <Box key={contact._id} sx={{ flex: '1 1 calc(25% - 32px)', maxWidth: 'calc(25% - 32px)' }}>
               <Paper elevation={3} sx={{ padding: 2, borderRadius: 2, textAlign: 'center' }}>
-                <img src={contact.image} alt={contact.name} style={{maxWidth: '150px', width: 'auto', maxHeight: '100px', borderRadius: '8px', marginBottom: '16px' }} />
+                <img src={`https://contactcrucible.xyz/uploads/${contact.image}`} alt={contact.name} style={{maxWidth: '150px', width: 'auto', maxHeight: '100px', borderRadius: '8px', marginBottom: '16px' }} />
                 <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
                   {contact.name}
                 </Typography>
