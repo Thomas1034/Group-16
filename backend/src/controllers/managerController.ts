@@ -12,20 +12,24 @@ interface IdHolder {
 
 export const create = async(req: Request, res: Response) => {
     try {
-        const { name, image, url } = req.body;
+        const { name, url } = req.body;
         const author = req.user_id;
-
-        if(!name || !image || !url || !author) {
+				
+        if(!name || !url || !author) {
             res.status(400).json({error: "Missing required fields"});
             return;
         }
 
         const contactManager = new ContactManager({
             name,
-            image,
             url,
             author
         });
+
+        // Handle image upload
+        if (req.file) {
+            contactManager.image = req.file.filename;
+        }
 
         await contactManager.save();
         res.sendStatus(201);

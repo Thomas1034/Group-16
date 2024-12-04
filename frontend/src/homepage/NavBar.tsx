@@ -82,6 +82,7 @@ function NavBar()
 
   const [registerError, setRegisterError] = React.useState(false);
   const [loginError, setLoginError] = React.useState(false);
+  const [registerErrorMsg, setRegisterErrorMsg] = React.useState("Fill in fields");
 
 
 
@@ -119,9 +120,9 @@ function NavBar()
       method: "POST",
       body: JSON.stringify(user)
       }).then((res) => {
-          if (res.status === 200) return res.json();
+          if (res.status === 201) return res.json();
           else if (res.status === 404) return "";
-          else throw new Error(`Got unexpected reponse status ${res.status} from search endpoint`);
+          else throw new Error(`Got unexpected reponse status ${res.status} from login endpoint`);
       });
   }
 
@@ -135,6 +136,7 @@ function NavBar()
     // API CALL HERE
     var user = {'username': username, 'password': password};
     var id = await login(user);
+    id = id.token;
     if (id.length == 0)
     {
       return;
@@ -152,9 +154,6 @@ function NavBar()
     , 500);
   }
 
-  /*
-  {username: x, password: pswd, email: email@.com}
-  */
 
   const register = async(user: any) =>
   {
@@ -166,9 +165,9 @@ function NavBar()
       method: "POST",
       body: JSON.stringify(user)
       }).then((res) => {
-          if (res.status === 200) return res.json();
+          if (res.status === 201) return res.json();
           else if (res.status === 404) return "";
-          else throw new Error(`Got unexpected reponse status ${res.status} from search endpoint`);
+          else throw new Error(`Got unexpected reponse status ${res.status} from register endpoint`);
       });
   }
 
@@ -178,10 +177,18 @@ function NavBar()
     if (username.length == 0 || password.length == 0 || email.length == 0)
     {
       setRegisterError(true);
+      setRegisterErrorMsg("Fill in all fields");
+      return;
+    }
+    else if (password.length < 6)
+    {
+      setRegisterError(true);
+      setRegisterErrorMsg("Password must be 6+ characters");
       return;
     }
     var user = {'username': username, 'password': password, 'email': email};
     var id = await register(user);
+    id = id.token;
     if (id.length == 0)
     {
       return;
@@ -214,7 +221,7 @@ function NavBar()
     return fetch(url, {
       method: "GET"
       }).then((res) => {
-          if (res.status === 200) return res.json();
+          if (res.status === 201) return res.json();
           else if (res.status === 404) return "";
           else throw new Error(`Got unexpected reponse status ${res.status} from search endpoint`);
       });
@@ -289,7 +296,7 @@ function NavBar()
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 )}
-                {(registerError && isSignup) ? <Typography style={{color: 'red'}}>Fill in all fields</Typography> : <></>}
+                {(registerError && isSignup) ? <Typography style={{color: 'red'}}>{registerErrorMsg}</Typography> : <></>}
 
               {/* Normal login */}
               {!isSignup && (

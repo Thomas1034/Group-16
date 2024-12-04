@@ -21,9 +21,9 @@ const userSchema = new mongoose.Schema(
     },
     {
         statics: {
-            // Method to find user by email & password
-            async findByCredentials(email: string, password: string) {
-                const user = await this.findOne({ email });
+            // Method to find user by username & password
+            async findByCredentials(username: string, password: string) {
+                const user = await this.findOne({ username });
 
                 if (!user) {
                     console.log("User not found");
