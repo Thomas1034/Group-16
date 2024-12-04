@@ -264,7 +264,7 @@ function ReviewPage() {
             reviews.map((review) => (
               <Paper key={review.id} elevation={3} sx={{ padding: 2 }}>
                 <Stack direction="row" alignItems="center" spacing={2}>
-                    <Paper style={{backgroundColor: "lightgray"}}><Typography>{review.userId.username}</Typography></Paper>
+                    <Paper style={{backgroundColor: "lightgray"}}><Typography sx={{paddingLeft:"10px", paddingRight:"10px", fontWeight:"bold"}}>{review.userId.username}</Typography></Paper>
                   <Rating value={review.rating} precision={0.5} readOnly />
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {review.body}
