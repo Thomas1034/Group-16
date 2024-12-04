@@ -53,7 +53,7 @@ function Homepage() {
       <NavBar setSearch={setSearch} />
       <Container maxWidth="lg" sx={{ marginTop: 4 }}>
           <Stack direction="column" spacing={4} alignItems="center" justifyItems="center"  sx={{marginBottom: 10, marginTop: 10}}>
-            <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', marginBottom: 2}}>
+            <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', marginBottom: 2}}>
               Welcome to the Contact Crucible!
             </Typography>
             <Box sx={{ width: '100%', display: "flex", justifyContent: "center", border: '3px solid', borderColor: 'primary.main', background:"white", borderRadius: 2, padding: 2 }}>
