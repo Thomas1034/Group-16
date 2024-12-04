@@ -54,7 +54,7 @@ function CreatePage() {
 
   return (
     <>
-      <NavBar />
+      <NavBar showSearchBar={false}/>
       <Container maxWidth="lg" sx={{ padding: 3 }}>
         <Paper elevation={3} sx={{ padding: 3, borderRadius: 2, marginTop:3}}>
             <Stack direction="column">

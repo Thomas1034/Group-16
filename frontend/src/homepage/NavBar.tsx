@@ -66,7 +66,7 @@ const Search = styled('div')(({ theme }) => ({
 
 
 // will need id later
-function NavBar({ setSearch }: { setSearch: (search: string) => void })
+function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string) => void ; showSearchBar?: boolean;})
 {
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -249,6 +249,7 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
             <Typography variant="h4" sx={{background:"#444444"}} style={{border:"2px solid black", paddingLeft:"10px", paddingBottom:"2px",paddingRight:"10px",borderRadius:"7px", color:"white", fontWeight: "bold", paddingTop:"5px",  cursor: 'pointer' }} onClick={() => navigate(`/`)}>
               Contact Crucible
             </Typography>
+            {showSearchBar && (
             <Search sx={{flexGrow: .45, marginRight: "15%"}}>
               <SearchIconWrapper>
                 <SearchIcon/>
@@ -261,6 +262,7 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
 
               />
             </Search>
+            )}
             {(loggedIn) ? <IconButton style={{left: "5%", borderRadius:"5px"}}  onClick={() => navigate(`/create?userId=${userID}`)}><Stack direction="row" sx={{borderRadius: "5px", border:"2px solid grey"}}><Typography fontWeight="bold" paddingLeft="10px" paddingRight="10px" sx={{color:'green'}}>Add a Manager</Typography><AddBoxIcon style={{color: 'green'}}/></Stack></IconButton> : <></>}
             <AccountCircleIconWrapper style={{position:"relative", justifyContent: "right"}}  onClick={handleOpenUserMenu}>{(!loggedIn) ?  <AccountCircleIcon style={{cursor : 'pointer', fontSize : '3rem'}}/> : <PersonIcon style={{color: 'primary.main', cursor : 'pointer', fontSize : '3rem'}}/>}</AccountCircleIconWrapper>
             
