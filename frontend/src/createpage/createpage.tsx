@@ -26,7 +26,9 @@ function CreatePage() {
     formData.append('name', managerName);
     formData.append('description', managerDesc);
     formData.append('url', managerUrl);
-    formData.append('image', managerImage);
+    if (managerImage) {
+      formData.append('image', managerImage);
+    }
     const token = localStorage.getItem("userID");
 
     try {
@@ -54,7 +56,7 @@ function CreatePage() {
 
   return (
     <>
-      <NavBar showSearchBar={false}/>
+      <NavBar setSearch={() => {}} showSearchBar={false}/>
       <Container maxWidth="lg" sx={{ padding: 3 }}>
         <Paper elevation={3} sx={{ padding: 3, borderRadius: 2, marginTop:3}}>
             <Stack direction="column">
@@ -66,7 +68,7 @@ function CreatePage() {
                           type="file" 
                           name="Manager Image" 
                           style={{ width: "100%", maxWidth: "400px", height: "auto"}} 
-                          onChange={(event: { target: { files: React.SetStateAction<File | null>[]; }; }) => {
+                          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             if (event.target.files && event.target.files[0]) {
                               setManagerImage(event.target.files[0]);
                             }

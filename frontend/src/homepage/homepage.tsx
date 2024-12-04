@@ -7,11 +7,18 @@ import ReviewContainer from './ReviewContainer';
 import {useNavigate} from "react-router-dom";
 import NavBar from './NavBar.tsx';
 
+interface Contact {
+  _id: string;
+  name: string;
+  image: string;
+  avgRating: number;
+  totalReviews: number;
+}
 
 
 function Homepage() {
   const navigate = useNavigate();
-  const [contactList, setContactList] = React.useState([]);
+  const [contactList, setContactList] = React.useState<Contact[]>([]);
   const [search, setSearch] = React.useState('');
 
   const fetchContactManagers = async (searchQuery = '') => {

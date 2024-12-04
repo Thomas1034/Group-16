@@ -28,6 +28,17 @@ let manager = {
   totalReviews: 0,
 };
 
+interface Review {
+    _id: string;
+    userId: {
+      _id: string;
+      username: string;
+    };
+    rating: number;
+    body: string;
+  }
+
+
 async function getContact(managerId: string) {
   const url = `http://localhost:5001/api/contact-managers/${managerId}`;
   try {
@@ -75,7 +86,7 @@ function ReviewPage() {
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const [loading, setLoading] = React.useState(true);
-  const [reviews, setReviews] = React.useState([]);
+  const [reviews, setReviews] = React.useState<Review[]>([]);
   const [update, setUpdate] = React.useState(false);
   const [updateForm, setUpdateForm] = React.useState(false);
   const [reviewId, setReviewId] = React.useState("");
@@ -216,7 +227,7 @@ function ReviewPage() {
 
   return (
     <>
-      <NavBar showSearchBar={false}/>
+      <NavBar setSearch={() => {}} showSearchBar={false}/>
       <Container maxWidth="lg" sx={{ padding: 3 }}>
         <Paper elevation={3} sx={{ padding: 3, borderRadius: 2, marginTop: 3 }}>
           <Stack
@@ -262,7 +273,7 @@ function ReviewPage() {
         <Stack spacing={2}>
           {reviews.length > 0 ? (
             reviews.map((review) => (
-              <Paper key={review.id} elevation={3} sx={{ padding: 2 }}>
+              <Paper key={review._id} elevation={3} sx={{ padding: 2 }}>
                 <Stack direction="row" alignItems="center" spacing={2}>
                     <Paper style={{backgroundColor: "lightgray"}}><Typography sx={{paddingLeft:"10px", paddingRight:"10px", fontWeight:"bold"}}>{review.userId.username}</Typography></Paper>
                   <Rating value={review.rating} precision={0.5} readOnly />
