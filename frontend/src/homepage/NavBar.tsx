@@ -259,7 +259,7 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
 
               />
             </Search>
-            {(loggedIn) ? <IconButton style={{left: "5%"}} onClick={() => navigate(`/create?userId=${userID}`)}><AddBoxIcon style={{color: 'green'}}/></IconButton> : <></>}
+            {(loggedIn) ? <IconButton style={{left: "5%", borderRadius:"5px"}}  onClick={() => navigate(`/create?userId=${userID}`)}><Stack direction="row" sx={{borderRadius: "5px", border:"2px solid grey"}}><Typography fontWeight="bold" paddingLeft="10px" paddingRight="10px" sx={{color:'green'}}>Add a Manager</Typography><AddBoxIcon style={{color: 'green'}}/></Stack></IconButton> : <></>}
             <AccountCircleIconWrapper style={{position:"relative", justifyContent: "right"}}  onClick={handleOpenUserMenu}>{(!loggedIn) ?  <AccountCircleIcon style={{cursor : 'pointer', fontSize : '2.6rem'}}/> : <PersonIcon style={{color: 'primary.main', cursor : 'pointer', fontSize : '2.6rem'}}/>}</AccountCircleIconWrapper>
             
             <Menu
