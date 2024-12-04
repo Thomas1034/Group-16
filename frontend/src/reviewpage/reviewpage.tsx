@@ -1,25 +1,46 @@
-import * as React from 'react';
-import { Typography, Stack, Rating, Snackbar, Box, Container, Paper, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, CircularProgress } from '@mui/material';
-import NavBar from '../homepage/NavBar.tsx';
+import * as React from "react";
+import {
+  Typography,
+  Stack,
+  Rating,
+  Snackbar,
+  Box,
+  Container,
+  Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  CircularProgress,
+} from "@mui/material";
+import NavBar from "../homepage/NavBar.tsx";
 import { useSearchParams } from "react-router-dom";
 
 let manager = {
+  _id: "temp",
   name: "test",
   image: "test",
+  url: "test",
   author: "test",
   avgRating: 0,
+  totalReviews: 0,
 };
 
 async function getContact(managerId: string) {
-  const url = `${window.location.origin}/api/contact-managers/${managerId}`;
+  const url = `http://localhost:5001/api/contact-managers/${managerId}`;
   try {
     const response = await fetch(url, { method: "GET" });
-    if (response.status === 200) {
+    if (response.status === 201) {
       const data = await response.json();
+      manager._id = data._id;
+      manager.url = data.url;
       manager.name = data.name;
       manager.image = data.image;
       manager.author = data.author;
       manager.avgRating = data.avgRating || 0;
+      manager.totalReviews = data.totalReviews || 0;
     } else {
       throw new Error(`Unexpected response status: ${response.status}`);
     }
@@ -30,18 +51,22 @@ async function getContact(managerId: string) {
 
 function ReviewPage() {
   const [searchParams] = useSearchParams();
-  const managerId = searchParams.get('id');
+  const managerId = searchParams.get("id");
 
   const [formOpen, setFormOpen] = React.useState(false);
   const [newRating, setNewRating] = React.useState<number | null>(null);
-  const [newReview, setNewReview] = React.useState('');
+  const [newReview, setNewReview] = React.useState("");
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState('');
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     if (managerId) {
-      getContact(managerId).then(() => {if(manager.name != "test"){setLoading(false)}});
+      getContact(managerId).then(() => {
+        if (manager.name != "test") {
+          setLoading(false);
+        }
+      });
     }
   }, [managerId]);
 
@@ -53,22 +78,49 @@ function ReviewPage() {
     setFormOpen(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (newRating === null) {
-      setSnackbarMessage('Please input a star rating.');
+      setSnackbarMessage("Please input a star rating.");
       setSnackbarOpen(true);
       return;
     }
-    // TODO: Handle form submission
-    console.log('New Rating:', newRating);
-    console.log('New Comment:', newReview);
+
+    const reviewData = {
+      contactManagerId: managerId,
+      rating: newRating,
+      body: newReview,
+    };
+
+    const token = localStorage.getItem("userID");
+    console.log(token)
+    try {
+      const response = await fetch('http://localhost:5001/api/reviews', {
+        method: 'POST',
+        headers: {
+          'accept': '*/*',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(reviewData)
+      });
+
+      if (response.ok) {
+        setSnackbarMessage("Review submitted!");
+      } else {
+        setSnackbarMessage("Failed to submit review.");
+      }
+    } catch (error) {
+      setSnackbarMessage("Error submitting review.");
+    }
     setFormOpen(false);
-    setSnackbarMessage('Review submitted!');
     setSnackbarOpen(true);
   };
 
-  const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
+  const handleSnackbarClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
     setSnackbarOpen(false);
@@ -76,37 +128,65 @@ function ReviewPage() {
 
   if (loading) {
     return (
-      <Box 
+      <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: '25%'
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "25%",
         }}
       >
         <CircularProgress color="success" />
       </Box>
     );
   }
-  
 
   return (
     <>
       <NavBar />
       <Container maxWidth="lg" sx={{ padding: 3 }}>
         <Paper elevation={3} sx={{ padding: 3, borderRadius: 2, marginTop: 3 }}>
-          <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} alignItems="center">
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={4}
+            alignItems="center"
+          >
             <Box>
-              <img src={manager.image} alt="Review" style={{ width: "100%", maxWidth: "400px", height: "auto" }} />
+              <img
+                src={manager.image}
+                alt="Review"
+                style={{ width: "100%", maxWidth: "400px", height: "auto" }}
+              />
             </Box>
-            <Stack sx={{ width: '100%', alignItems: "center" }}>
-              <Stack direction="column" spacing={2} sx={{ flexGrow: 1, maxWidth: 500, alignItems: "center" }}>
-                <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>{manager.name}</Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary' }}>{manager.author}</Typography>
+            <Stack sx={{ width: "100%", alignItems: "center" }}>
+              <Stack
+                direction="column"
+                spacing={2}
+                sx={{ flexGrow: 1, maxWidth: 500, alignItems: "center" }}
+              >
+                <Typography
+                  variant="h4"
+                  component="h1"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {manager.name}
+                </Typography>
+                <Typography variant="body1" sx={{ color: "text.secondary" }}>
+                  {manager.author}
+                </Typography>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Rating size="large" value={manager.avgRating} precision={0.5} readOnly />
+                  <Rating
+                    size="large"
+                    value={manager.avgRating}
+                    precision={0.5}
+                    readOnly
+                  />
                 </Stack>
-                <Button variant="contained" color="primary" onClick={handleFormOpen}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleFormOpen}
+                >
                   Add Review
                 </Button>
               </Stack>

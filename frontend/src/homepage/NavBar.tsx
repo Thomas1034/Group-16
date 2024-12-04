@@ -112,7 +112,7 @@ function NavBar()
 
   const login = async(user: any) =>
   {
-    const url = `${window.location.origin}/api/auth/login`;
+    const url = `http://localhost:5001/api/auth/login`;
     return fetch(url, {
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +120,7 @@ function NavBar()
       method: "POST",
       body: JSON.stringify(user)
       }).then((res) => {
-          if (res.status === 201) return res.json();
+          if (res.status === 200) return res.json();
           else if (res.status === 404) return "";
           else throw new Error(`Got unexpected reponse status ${res.status} from login endpoint`);
       });
@@ -157,7 +157,7 @@ function NavBar()
 
   const register = async(user: any) =>
   {
-    const url = `${window.location.origin}/api/auth/register`;
+    const url = `http://localhost:5001/api/auth/register`;
     return fetch(url, {
       headers: {
         "Content-Type": "application/json",

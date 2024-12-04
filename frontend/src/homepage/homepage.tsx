@@ -53,7 +53,7 @@ function Homepage() {
                 lg: 3,
                 xl: 3,
               }}
-              itemRenderer={(item) => <ReviewContainer reviewObject={item} />}
+              itemRenderer={(item) => <ReviewContainer  key ={item._id} reviewObject={item} />}
               itemGap={25}
               />
             </Box>
@@ -66,7 +66,7 @@ function Homepage() {
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
           {contactList.map((contact) => (
-            <Box key={contact.id} sx={{ flex: '1 1 calc(25% - 32px)', maxWidth: 'calc(25% - 32px)' }}>
+            <Box key={contact._id} sx={{ flex: '1 1 calc(25% - 32px)', maxWidth: 'calc(25% - 32px)' }}>
               <Paper elevation={3} sx={{ padding: 2, borderRadius: 2, textAlign: 'center' }}>
                 <img src={contact.image} alt={contact.name} style={{maxWidth: '150px', width: 'auto', maxHeight: '100px', borderRadius: '8px', marginBottom: '16px' }} />
                 <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
@@ -80,7 +80,7 @@ function Homepage() {
                 </Stack>
                 
                 <Stack direction="row" spacing={2} justifyContent="center">
-                  <Button variant="contained" color="primary" onClick={() => navigate(`/manager/${contact.id}`)}>
+                  <Button variant="contained" color="primary" onClick={() => navigate(`/reviews?id=${contact._id}`)}>
                     Go to Manager
                   </Button>
                 </Stack>

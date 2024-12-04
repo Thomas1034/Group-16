@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const ReviewContainer = ({ reviewObject }: { reviewObject: any }) =>
 {
     const navigate = useNavigate();
-    var id = reviewObject.id;
+    var id = reviewObject._id;
     var name = reviewObject.name;
     var avgRating = reviewObject.avgRating;
     // Get the contactManager info with API
