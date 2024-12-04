@@ -75,6 +75,8 @@ export const get = async(req: Request<IdHolder, {}, {}, {}>, res: Response) => {
 
         const objectId = new mongoose.Types.ObjectId(id); 
         var manager = await ContactManager.findManagerWithRating(objectId);
+        manager = await ContactManager.populate(manager, {path: "author", select: "username"});
+
 
         if(manager === null) {
             res.status(404).json({error: "Manager not found"});
