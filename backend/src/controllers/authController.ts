@@ -33,14 +33,14 @@ export const register = async(req: Request, res: Response) => {
 
 export const login = async(req: Request, res: Response) => {
     try {
-        const { email, password } = req.body;
+        const { username, password } = req.body;
 
-        if(!email || !password) {
+        if(!username || !password) {
             res.status(400).json({error: "Missing required fields"});
             return;
         }
 
-        const user = await User.findByCredentials(email, password);
+        const user = await User.findByCredentials(username, password);
 
         if (!user) {
             res.status(401).json({error: "Invalid login credentials"});
