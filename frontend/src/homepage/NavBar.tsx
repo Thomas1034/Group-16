@@ -181,7 +181,7 @@ function NavBar()
               return;
             }
           else if (res.status === 404) return "";
-          else throw new Error(`Got unexpected reponse status ${res.status} from register endpoint`);
+          else {console.log("fail blank"); throw new Error(`Got unexpected reponse status ${res.status} from register endpoint`)};
       });
   }
 
@@ -201,16 +201,25 @@ function NavBar()
       return;
     }
     var user = {'username': username, 'password': password, 'email': email};
+    console.log("above 1");
     var id = await register(user);
+    console.log("above")
     id = id.token;
     if (id.length == 0)
     {
       return;
     }
+    console.log("here");
     setUserID(id);
     localStorage.setItem('loggedIn', 'true');
     localStorage.setItem('userID', id);
-    handleLogin();
+    handleCloseUserMenu();
+    setTimeout(() => {
+      setLoggedIn(true);
+      setUserID(null);
+      setSnackbarMessage('You have successfully logged in!');
+      setSnackbarOpen(true);
+    })
   }
 
   const handleLogout = () => {
