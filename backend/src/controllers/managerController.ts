@@ -53,6 +53,7 @@ export const getAll = async(req: Request<{}, {}, {}, ManagerQuery>, res: Respons
 
         // Search is optional, this will return all managers if not provided
         var allManagers = await ContactManager.findAllManagersWithAvgRating(search);
+        allManagers = await ContactManager.populate(allManagers, {path: "author", select: "username"});
 
         res.status(201).json(allManagers);
     } catch (error) {

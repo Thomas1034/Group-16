@@ -42,7 +42,8 @@ export const openReview = async(req: Request<IdHolder, {}, {}, {}>, res: Respons
       return;
     }
 
-    var reviews = await Review.find({contactManagerId: id})
+    const reviews = await Review.find({contactManagerId: id}).populate('userId', 'username');
+
     res.status(200).json(reviews);
 
   } catch (error) {
@@ -85,7 +86,7 @@ export const deleteReview = async(req: Request, res: Response) => {
         const author = req.user_id;
         
         // Check if the review_id is valid
-        if (!review_id || !mongoose.Types.ObjectId.isValid(review_id)) {
+        if (!author || !review_id || !mongoose.Types.ObjectId.isValid(review_id)) {
             res.status(401).json({error: "Missing required fields"});
             return;
         }

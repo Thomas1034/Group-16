@@ -172,7 +172,6 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
       method: "POST",
       body: JSON.stringify(user)
       }).then((res) => {
-        console.log(res.status)
           if (res.status === 201) return res.json();
           else if (res.status === 400) 
             {
@@ -203,6 +202,7 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
     var user = {'username': username, 'password': password, 'email': email};
     var id = await register(user);
     id = id.token;
+    localStorage.setItem('realUserId', id.id);
     if (id.length == 0)
     {
       return;
@@ -210,7 +210,13 @@ function NavBar({ setSearch }: { setSearch: (search: string) => void })
     setUserID(id);
     localStorage.setItem('loggedIn', 'true');
     localStorage.setItem('userID', id);
-    handleLogin();
+    handleCloseUserMenu();
+    setTimeout(() => {
+      setLoggedIn(true);
+      setUserID(null);
+      setSnackbarMessage('You have successfully logged in!');
+      setSnackbarOpen(true);
+    })
   }
 
   const handleLogout = () => {

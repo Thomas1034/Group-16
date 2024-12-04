@@ -29,7 +29,7 @@ export const register = async(req: Request, res: Response) => {
 
         // Send back token
         const token = generateToken(user.id);
-        res.status(201).json({token: token});
+        res.status(201).json({token: token, id: user._id});
 
     } catch (error) {
         res.status(500).json({error: "Internal server error."});
@@ -54,7 +54,7 @@ export const login = async(req: Request, res: Response) => {
 
         // Successful login (credentials match)
         const token = generateToken(user.id);
-        res.status(200).json({token: token});
+        res.status(200).json({token: token, id: user._id});
 
     } catch (error) {
         console.log(error);
