@@ -10,10 +10,12 @@ import NavBar from './NavBar.tsx';
 function Homepage() {
   const navigate = useNavigate();
   const [contactList, setContactList] = React.useState([]);
+  const [search, setSearch] = React.useState('');
 
-  const fetchContactManagers = async () => {
+  const fetchContactManagers = async (searchQuery = '') => {
     try {
-      const response = await fetch('http://localhost:5001/api/contact-managers?page=1', {
+      console.log(`http://localhost:5001/api/contact-managers?page=1?search=${searchQuery}`)
+      const response = await fetch(`http://localhost:5001/api/contact-managers?page=1?search=${searchQuery}`, {
         method: 'GET',
         headers: {
           'accept': 'application/json'
@@ -31,16 +33,16 @@ function Homepage() {
   };
 
   React.useEffect(() => {
-    fetchContactManagers();
-  }, []);
+    fetchContactManagers(search);
+  }, [search]);
 
   React.useEffect(() => {
     document.title = "Contact Crucible";
   }, []);
-  
+
   return (
     <>
-      <NavBar />
+      <NavBar setSearch={setSearch} />
       <Container maxWidth="lg" sx={{ marginTop: 4 }}>
           <Stack direction="column" spacing={4} alignItems="center" justifyItems="center"  sx={{marginBottom: 10, marginTop: 10}}>
             <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', marginBottom: 2}}>

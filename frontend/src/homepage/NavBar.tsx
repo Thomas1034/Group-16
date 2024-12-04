@@ -66,7 +66,7 @@ const Search = styled('div')(({ theme }) => ({
 
 
 // will need id later
-function NavBar()
+function NavBar({ setSearch }: { setSearch: (search: string) => void })
 {
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -231,14 +231,8 @@ function NavBar()
 
   const PerformSearch = (e: any) => 
   {
-    const url = `tbd/?q=${e.target.value}`;
-    return fetch(url, {
-      method: "GET"
-      }).then((res) => {
-          if (res.status === 201) return res.json();
-          else if (res.status === 404) return "";
-          else throw new Error(`Got unexpected reponse status ${res.status} from search endpoint`);
-      });
+      console.log(e.target.value)
+      setSearch(e.target.value);
   }
     return (
         <AppBar position="fixed" style={{backgroundColor: "white"}}>
