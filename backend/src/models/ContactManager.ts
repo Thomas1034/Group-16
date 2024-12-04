@@ -18,6 +18,7 @@ const contactManagerSchema = new mongoose.Schema(
         author: {
             type: mongoose.Types.ObjectId,
             required: true,
+            ref: "User",
         },
     },
     { 

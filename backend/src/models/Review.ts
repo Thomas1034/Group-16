@@ -1,8 +1,12 @@
 import mongoose from "mongoose";
-import ObjectId = mongoose.Schema.Types.ObjectId;
+import ObjectId = mongoose.Types.ObjectId;
 
 const reviewSchema = new mongoose.Schema({
-    userId: ObjectId,
+    userId: {
+        type: ObjectId,
+        required: true,
+        ref: "User",
+    },
     contactManagerId: ObjectId,
     rating: Number,
     body: String,
