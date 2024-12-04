@@ -12,7 +12,8 @@ export const register = async(req: Request, res: Response) => {
         }
 
         // Check if user already exists
-        const existingUser = await User.findOne({email: email.toLowerCase()});
+        const existingUser = await User.findOne({username: username.toLowerCase()});
+
         if (existingUser) {
             res.status(400).json({error: "User already exists"});
             return;
@@ -25,7 +26,11 @@ export const register = async(req: Request, res: Response) => {
         });
 
         await user.save();
-        res.sendStatus(201);
+
+        // Send back token
+        const token = generateToken(user.id);
+        res.status(201).json({token: token});
+
     } catch (error) {
         res.status(500).json({error: "Internal server error."});
     }
