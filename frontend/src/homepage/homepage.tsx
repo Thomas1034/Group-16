@@ -1,36 +1,96 @@
 import * as React from 'react';
-import { AppBar, Toolbar, Typography, InputBase, styled, alpha, Avatar, Stack, Container } from '@mui/material';
+import { AppBar, Paper, Grid, Button, Rating, Box, Toolbar, Typography, InputBase, styled, alpha, Avatar, Stack, Container } from '@mui/material';
 import Carousel from "react-carousel-mui";
 import SearchIcon from '@mui/icons-material/Search';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ReviewContainer from './ReviewContainer';
+import {useNavigate} from "react-router-dom";
 import NavBar from './NavBar.tsx';
 
 function Homepage() {
-  var contactList = [{id: 0, imgSrc: "/apple.png"}, {id: 1, imgSrc: "/google.png"}, {id: 2, imgSrc: "/samsung.png"}, {id: 3, imgSrc: "/apple.png"}, {id: 4, imgSrc: "/google.png"}, {id: 5, imgSrc: "/samsung.png"}]
-  
+  const navigate = useNavigate();
+  const [contactList, setContactList] = React.useState([]);
+
+  const fetchContactManagers = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/api/contact-managers?page=1', {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json'
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setContactList(data);
+      } else {
+        console.error('Failed to fetch contact managers');
+      }
+    } catch (error) {
+      console.error('Error fetching contact managers:', error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchContactManagers();
+  }, []);
 
   return (
     <>
-      <NavBar/>
-      <Stack direction="row" style={{marginTop: "50px", backgroundColor: "white"}} alignItems="center" justifyContent="center">
-        <Carousel
+      <NavBar />
+      <Container maxWidth="lg" sx={{ marginTop: 4 }}>
+          <Stack direction="column" spacing={4} alignItems="center" justifyItems="center"  sx={{marginBottom: 10, marginTop: 10}}>
+            <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', marginBottom: 2}}>
+              Welcome to the Contact Crucible!
+            </Typography>
+            <Box sx={{ width: '100%', display: "flex", justifyContent: "center", border: '3px solid', borderColor: 'primary.main', background:"white", borderRadius: 2, padding: 2 }}>
+              <Carousel
+              items={contactList}
+              itemsPerPage={{
+                xs: 2,
+                sm: 2,
+                tablet: 2,
+                md: 3,
+                lg: 3,
+                xl: 3,
+              }}
+              itemRenderer={(item) => <ReviewContainer reviewObject={item} />}
+              itemGap={25}
+              />
+            </Box>
+          </Stack>
 
-          items={contactList}
-          itemsPerPage={{
-            xs: 2,
-            sm: 2,
-            tablet: 2,
-            md: 3,
-            lg: 3,
-            xl: 3,
-          }}
-          itemRenderer={(item) => <ReviewContainer reviewObject={item}/>}
-          itemGap={25}
-          // maxContainerWidth={theme.breakpoints.values["md"]}
-          />
-      </Stack>
+          <KeyboardArrowDownIcon sx={{ fontSize: 40, marginTop: 2, cursor: 'pointer' }} />
+
+        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', marginTop: 10, marginBottom: 2 }}>
+          All Contact Managers
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+          {contactList.map((contact) => (
+            <Box key={contact.id} sx={{ flex: '1 1 calc(25% - 32px)', maxWidth: 'calc(25% - 32px)' }}>
+              <Paper elevation={3} sx={{ padding: 2, borderRadius: 2, textAlign: 'center' }}>
+                <img src={contact.image} alt={contact.name} style={{maxWidth: '150px', width: 'auto', maxHeight: '100px', borderRadius: '8px', marginBottom: '16px' }} />
+                <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
+                  {contact.name}
+                </Typography>
+                <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} sx={{ marginBottom: 2 }}>
+                  <Rating value={contact.avgRating} precision={0.5} readOnly />
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    ({contact.totalReviews})
+                  </Typography>
+                </Stack>
+                
+                <Stack direction="row" spacing={2} justifyContent="center">
+                  <Button variant="contained" color="primary" onClick={() => navigate(`/manager/${contact.id}`)}>
+                    Go to Manager
+                  </Button>
+                </Stack>
+              </Paper>
+            </Box>
+          ))}
+        </Box>
+      </Container>
     </>
-  )
+  );
 }
 
-export default Homepage
+export default Homepage;

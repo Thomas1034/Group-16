@@ -7,14 +7,16 @@ const ReviewContainer = ({ reviewObject }: { reviewObject: any }) =>
 {
     const navigate = useNavigate();
     var id = reviewObject.id;
+    var name = reviewObject.name;
+    var avgRating = reviewObject.avgRating;
     // Get the contactManager info with API
     return (
-        <Stack  onClick={() => navigate(`/reviews?id=${id}`)} direction = "column" alignItems="center" style={{border: "3px solid grey", backgroundColor: "ghostwhite", margin: "15px"}}>
+        <Stack  onClick={() => navigate(`/reviews?id=${id}`)} direction = "column" alignItems="center" style={{border: "3px solid grey", backgroundColor: "ghostwhite", margin: "15px", borderRadius:"10px"}}>
             <Typography variant="h4" style={{color:"black", fontWeight: "bold", justifyContent:"left"}}>
-                Contact Manager
+                {name}
             </Typography>
-            <img src = {reviewObject.imgSrc} alt="alt" style={{height:"200px", width:"200px"}}/>
-            <Rating name="half-rating" size="large" defaultValue={0.5 + id} precision={0.5} readOnly/>
+            <img src = {reviewObject.imgSrc} alt="alt" style={{height:"200px", width:"200px", marginTop:"20px", marginBottom:"20px",}}/>
+            <Rating name="half-rating" size="large" defaultValue={avgRating} precision={0.5} readOnly/>
         </Stack>
     );
 }
