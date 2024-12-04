@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 import AuthRoute from './routes/authRoute';
 import ManagerRoute from './routes/managerRoute';
@@ -22,6 +23,10 @@ mongoose.connect(process.env.MONGODB_URI!, {
     })
 
 app.use(bodyParser.json());
+
+// Handle CORS
+
+app.use(cors());
 
 // Serve static files in development.
 // In production, Nginx will serve the static files. 
