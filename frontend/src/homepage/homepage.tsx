@@ -14,8 +14,7 @@ function Homepage() {
 
   const fetchContactManagers = async (searchQuery = '') => {
     try {
-      console.log(`http://localhost:5001/api/contact-managers?page=1?search=${searchQuery}`)
-      const response = await fetch(`http://localhost:5001/api/contact-managers?page=1?search=${searchQuery}`, {
+      const response = await fetch(`http://localhost:5001/api/contact-managers?page=1&search=${searchQuery}`, {
         method: 'GET',
         headers: {
           'accept': 'application/json'
