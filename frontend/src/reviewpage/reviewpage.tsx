@@ -22,6 +22,7 @@ let manager = {
   _id: "temp",
   name: "test",
   image: "test",
+  description: "test",
   url: null,
   author: {
     _id: "string",
@@ -154,37 +155,37 @@ function ReviewPage() {
 
     const token = localStorage.getItem("userID");
     try {
-      const response = await fetch("https://contactcrucible.xyz/api/reviews", {
+    const response = await fetch("https://contactcrucible.xyz/api/reviews", {
         method: "POST",
         headers: {
-          accept: "*/*",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+        accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(reviewData),
-      });
+    });
 
-      if (response.ok) {
+    if (response.ok) {
         setSnackbarMessage("Review submitted!");
         fetchReviews(managerId!).then((data) => {
             const filteredReviews = data.filter((r: any) => {
-              try {
+            try {
                 if (r.userId && r.userId._id && typeof r.rating === "number" && r.body) {
-                  return true; 
+                return true; 
                 }
                 throw new Error("Invalid format");
-              } catch (error) {
+            } catch (error) {
                 return false;
-              }
+            }
             });
             setReviews(filteredReviews);
-          });
-          
-      } else {
+        });
+        
+    } else {
         setSnackbarMessage("Failed to submit review.");
-      }
+    }
     } catch (error) {
-      setSnackbarMessage("Error submitting review.");
+    setSnackbarMessage("Error submitting review.");
     }
     setFormOpen(false);
     setSnackbarOpen(true);
@@ -231,7 +232,13 @@ function ReviewPage() {
             setReviews(filteredReviews);
           });
           
-      } else {
+      }
+      else if (response.status == 403)
+      {
+        localStorage.clear();
+        window.location.reload();
+      }  
+      else {
         setSnackbarMessage("Failed to submit review.");
       }
     } catch (error) {
@@ -270,7 +277,13 @@ function ReviewPage() {
         setReviews((prev) => prev.filter((review) => review._id !== reviewId));
         setUpdate(false); // Reset update state
         setReviewId(""); // Clear review ID
-      } else {
+      }
+      else if (response.status == 403)
+      {
+        localStorage.clear();
+        window.location.reload();
+      }  
+      else {
         setSnackbarMessage("Failed to delete review.");
       }
     } catch (error) {
@@ -318,6 +331,9 @@ function ReviewPage() {
               </Typography>
               <Typography variant="body1" sx={{ color: "text.secondary", marginBottom:"30px"}}>
                 By: {manager.author.username}
+              </Typography>
+              <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", marginBottom:"30px"}}>
+                {manager.description}
               </Typography>
               <Rating size="large" sx={{marginBottom:"20px"}} value={(Math.round(manager.avgRating * 10)/10)} precision={0.1} readOnly />
               <Stack direction="row" sx={{marginTop: "10px"}}>
