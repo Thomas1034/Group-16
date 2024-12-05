@@ -53,7 +53,8 @@ async function getContact(managerId: string) {
         avgRating: data.avgRating || 0,
         totalReviews: data.totalReviews || 0,
       };
-    } else {
+    }
+    else {
       throw new Error(`Unexpected response status: ${response.status}`);
     }
   } catch (error) {
@@ -165,7 +166,20 @@ function ReviewPage() {
 
       if (response.ok) {
         setSnackbarMessage("Review submitted!");
-        fetchReviews(managerId!).then((data) => setReviews(data));
+        fetchReviews(managerId!).then((data) => {
+            const filteredReviews = data.filter((r: any) => {
+              try {
+                if (r.userId && r.userId._id && typeof r.rating === "number" && r.body) {
+                  return true; 
+                }
+                throw new Error("Invalid format");
+              } catch (error) {
+                return false;
+              }
+            });
+            setReviews(filteredReviews);
+          });
+          
       } else {
         setSnackbarMessage("Failed to submit review.");
       }
