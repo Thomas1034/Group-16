@@ -165,7 +165,7 @@ function ReviewPage() {
 
       if (response.ok) {
         setSnackbarMessage("Review submitted!");
-        fetchReviews(managerId!).then((data) => setReviews(data)); // Reload reviews
+        fetchReviews(managerId!).then((data) => setReviews(data));
       } else {
         setSnackbarMessage("Failed to submit review.");
       }
@@ -203,7 +203,20 @@ function ReviewPage() {
 
       if (response.ok) {
         setSnackbarMessage("Review submitted!");
-        fetchReviews(managerId!).then((data) => setReviews(data)); // Reload reviews
+        fetchReviews(managerId!).then((data) => {
+            const filteredReviews = data.filter((r: any) => {
+              try {
+                if (r.userId && r.userId._id && typeof r.rating === "number" && r.body) {
+                  return true; 
+                }
+                throw new Error("Invalid format");
+              } catch (error) {
+                return false;
+              }
+            });
+            setReviews(filteredReviews);
+          });
+          
       } else {
         setSnackbarMessage("Failed to submit review.");
       }
