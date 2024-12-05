@@ -82,7 +82,6 @@ function ReviewPage() {
   const [searchParams] = useSearchParams();
   const managerId = searchParams.get("id");
   const userId = localStorage.getItem('realUserId');
-  console.log(userId);
   const [formOpen, setFormOpen] = React.useState(false);
   const [newRating, setNewRating] = React.useState<number | null>(null);
   const [newReview, setNewReview] = React.useState("");
@@ -105,7 +104,7 @@ function ReviewPage() {
               }
               throw new Error("Format");
             } catch (error) {
-              console.error("Wack", error, r);
+              console.error("Null in review: ", error, r);
               return false;
             }
           });
