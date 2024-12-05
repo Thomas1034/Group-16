@@ -115,8 +115,6 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
       setUserID(id);
       setTimeout(() => {
         setLoggedIn(true);
-        setSnackbarMessage('You have successfully logged in!');
-        setSnackbarOpen(true);
       }, 500)
     }
   }, []);
