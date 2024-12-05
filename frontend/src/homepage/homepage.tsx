@@ -48,6 +48,8 @@ function Homepage() {
     document.title = "Contact Crucible";
   }, []);
 
+  const sortedContactList = [...contactList].sort((a, b) => b.avgRating - a.avgRating);
+
   return (
     <>
       <NavBar setSearch={setSearch} />
@@ -58,7 +60,7 @@ function Homepage() {
             </Typography>
             <Box sx={{ width: '100%', display: "flex", justifyContent: "center", border: '3px solid', borderColor: 'primary.main', background:"white", borderRadius: 2, padding: 2 }}>
               <Carousel
-              items={contactList}
+              items={sortedContactList}
               itemsPerPage={{
                 xs: 2,
                 sm: 2,
@@ -67,6 +69,7 @@ function Homepage() {
                 lg: 3,
                 xl: 3,
               }}
+
               itemRenderer={(item) => <ReviewContainer  key ={item._id} reviewObject={item} />}
               itemGap={25}
               />
