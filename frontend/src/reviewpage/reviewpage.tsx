@@ -322,7 +322,7 @@ function ReviewPage() {
               <img
                 src={`https://contactcrucible.xyz/uploads/${manager.image}`}
                 alt="Review"
-                style={{ width: "100%", maxWidth: "400px", height: "auto" }}
+                style={{ width: "100%", width: "300px", height: "auto" }}
               />
             </Box>
             <Stack sx={{ width: "100%", alignItems: "center" }}>
@@ -332,7 +332,7 @@ function ReviewPage() {
               <Typography variant="body1" sx={{ color: "text.secondary", marginBottom:"30px"}}>
                 By: {manager.author.username}
               </Typography>
-              <Typography variant="body1" sx={{fontSize:"1.2rem", marginBottom:"30px"}}>
+              <Typography variant="body1" sx={{fontSize:"1.2 rem", marginBottom:"30px"}}>
                 {manager.description}
               </Typography>
               <Rating size="large" sx={{marginBottom:"20px"}} value={(Math.round(manager.avgRating * 10)/10)} precision={0.1} readOnly />

@@ -82,7 +82,7 @@ function Homepage() {
           {contactList.map((contact) => (
             <Box key={contact._id} sx={{ flex: '1 1 calc(25% - 32px)', maxWidth: 'calc(25% - 32px)' }}>
               <Paper elevation={3} sx={{ padding: 2, borderRadius: 2, textAlign: 'center' }}>
-                <img src={`https://contactcrucible.xyz/uploads/${contact.image}`} alt={contact.name} style={{maxWidth: '150px', width: 'auto', maxHeight: '100px', borderRadius: '8px', marginBottom: '16px' }} />
+                <img src={`https://contactcrucible.xyz/uploads/${contact.image}`} alt={contact.name} style={{width: 'auto', height: '150px', borderRadius: '8px', marginBottom: '16px' }} />
                 <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
                   {contact.name}
                 </Typography>
