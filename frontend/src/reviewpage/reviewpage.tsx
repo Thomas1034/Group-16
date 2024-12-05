@@ -322,7 +322,7 @@ function ReviewPage() {
               <img
                 src={`https://contactcrucible.xyz/uploads/${manager.image}`}
                 alt="Review"
-                style={{ width: "100%", width: "300px", height: "auto" }}
+                style={{width: "300px", height: "auto" }}
               />
             </Box>
             <Stack sx={{ width: "100%", alignItems: "center" }}>
