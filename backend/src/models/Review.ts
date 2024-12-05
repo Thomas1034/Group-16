@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import ObjectId = mongoose.Types.ObjectId;
+import User from "./User";
 
 const reviewSchema = new mongoose.Schema({
     userId: {
         type: ObjectId,
         required: true,
-        ref: "User",
+        ref: User,
     },
     contactManagerId: ObjectId,
     rating: Number,

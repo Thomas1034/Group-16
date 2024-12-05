@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from "./User";
 
 const contactManagerSchema = new mongoose.Schema(
     {
@@ -18,7 +19,7 @@ const contactManagerSchema = new mongoose.Schema(
         author: {
             type: mongoose.Types.ObjectId,
             required: true,
-            ref: "User",
+            ref: User,
         },
     },
     { 
