@@ -109,7 +109,7 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
   };
 
   React.useEffect(() => {
-    if (localStorage.getItem('userID')?.length != 0)
+    if (localStorage.getItem('userID'))
     {
       var id = localStorage.getItem('userID');
       setUserID(id);
@@ -231,6 +231,7 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
 
   const handleLogout = () => {
     handleCloseUserMenu();
+    localStorage.clear();
     setTimeout(() => {
       setLoggedIn(false);
       setUserID(null);
