@@ -14,10 +14,10 @@ interface IdHolder {
 
 export const create = async(req: Request, res: Response) => {
     try {
-        const { name, url } = req.body;
+        const { name, url, description } = req.body;
         const author = req.user_id;
 
-        if(!name || !url || !author) {
+        if(!name || !url || !author || !description) {
             res.status(400).json({error: "Missing required fields"});
             return;
         }
@@ -25,7 +25,8 @@ export const create = async(req: Request, res: Response) => {
         const contactManager = new ContactManager({
             name,
             url,
-            author
+            author,
+            description,
         });
 
         // Handle image upload
