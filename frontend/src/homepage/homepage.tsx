@@ -87,7 +87,7 @@ function Homepage() {
                   {contact.name}
                 </Typography>
                 <Stack direction="row" alignItems="center" justifyContent="center" spacing={1} sx={{ marginBottom: 2 }}>
-                  <Rating value={contact.avgRating} precision={0.5} readOnly />
+                  <Rating value={(Math.round(contact.avgRating * 10)/10)} precision={0.5} readOnly />
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     ({contact.totalReviews})
                   </Typography>

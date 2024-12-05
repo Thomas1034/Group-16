@@ -16,7 +16,7 @@ const ReviewContainer = ({ reviewObject }: { reviewObject: any }) =>
                 {name}
             </Typography>
             <img src = {`https://contactcrucible.xyz/uploads/${reviewObject.image}`} alt="alt" style={{height:"200px", width:"200px", marginTop:"20px", marginBottom:"20px",}}/>
-            <Rating name="half-rating" size="large" defaultValue={avgRating} precision={0.5} readOnly/>
+            <Rating name="half-rating" size="large" defaultValue={(Math.round(avgRating * 10)/10)} precision={0.5} readOnly/>
         </Stack>
     );
 }

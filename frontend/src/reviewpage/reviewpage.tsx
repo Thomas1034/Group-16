@@ -252,7 +252,7 @@ function ReviewPage() {
               <Typography variant="body1" sx={{ color: "text.secondary", marginBottom:"30px"}}>
                 By: {manager.author.username}
               </Typography>
-              <Rating size="large" sx={{marginBottom:"20px"}} value={manager.avgRating} precision={0.1} readOnly />
+              <Rating size="large" sx={{marginBottom:"20px"}} value={(Math.round(manager.avgRating * 10)/10)} precision={0.1} readOnly />
               <Stack direction="row" sx={{marginTop: "10px"}}>
               {manager.url && (
                 <Button variant="contained" sx={{marginRight: "100px"}}color="primary" onClick={() => window.open(`http://${manager.url}`, '_blank')}>
