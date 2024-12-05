@@ -32,7 +32,7 @@ function CreatePage() {
     const token = localStorage.getItem("userID");
 
     try {
-      const response = await fetch('http://localhost:5001/api/contact-managers', {
+      const response = await fetch('https://contactcrucible.xyz/api/contact-managers', {
         method: 'POST',
         headers: {
           'accept': '*/*',

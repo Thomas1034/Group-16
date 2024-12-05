@@ -113,7 +113,7 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
 
   const login = async(user: any) =>
   {
-    const url = `http://localhost:5001/api/auth/login`;
+    const url = `https://contactcrucible.xyz/api/auth/login`;
     return fetch(url, {
       headers: {
         "Content-Type": "application/json",
@@ -165,7 +165,7 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
 
   const register = async(user: any) =>
   {
-    const url = `http://localhost:5001/api/auth/register`;
+    const url = `https://contactcrucible.xyz/api/auth/register`;
     return fetch(url, {
       headers: {
         "Content-Type": "application/json",

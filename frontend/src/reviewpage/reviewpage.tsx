@@ -43,7 +43,7 @@ interface Review {
 
 
 async function getContact(managerId: string) {
-  const url = `http://localhost:5001/api/contact-managers/${managerId}`;
+  const url = `https://contactcrucible.xyz/api/contact-managers/${managerId}`;
   try {
     const response = await fetch(url, { method: "GET" });
     if (response.ok) {
@@ -62,7 +62,7 @@ async function getContact(managerId: string) {
 }
 
 async function fetchReviews(managerId: string) {
-  const url = `http://localhost:5001/api/reviews/contact-manager/${managerId}`;
+  const url = `https://contactcrucible.xyz/api/reviews/contact-manager/${managerId}`;
   try {
     const response = await fetch(url, { method: "GET" });
     if (response.ok) {
@@ -141,7 +141,7 @@ function ReviewPage() {
 
     const token = localStorage.getItem("userID");
     try {
-      const response = await fetch("http://localhost:5001/api/reviews", {
+      const response = await fetch("https://contactcrucible.xyz/api/reviews", {
         method: "POST",
         headers: {
           accept: "*/*",
@@ -179,7 +179,7 @@ function ReviewPage() {
 
     const token = localStorage.getItem("userID");
     try {
-      const response = await fetch(`http://localhost:5001/api/reviews/${reviewId}`, {
+      const response = await fetch(`https://contactcrucible.xyz/api/reviews/${reviewId}`, {
         method: "PUT",
         headers: {
           accept: "*/*",
