@@ -68,7 +68,6 @@ const Search = styled('div')(({ theme }) => ({
 // will need id later
 function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string) => void ; showSearchBar?: boolean;})
 {
-
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -84,8 +83,6 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
   const [registerError, setRegisterError] = React.useState(false);
   const [loginError, setLoginError] = React.useState(false);
   const [registerErrorMsg, setRegisterErrorMsg] = React.useState("Fill in fields");
-
-
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -110,6 +107,20 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
     }
     setSnackbarOpen(false);
   };
+
+  React.useEffect(() => {
+    if (localStorage.getItem('userID')?.length != 0)
+    {
+      var id = localStorage.getItem('userID');
+      setUserID(id);
+      setTimeout(() => {
+        setLoggedIn(true);
+        setUserID(null);
+        setSnackbarMessage('You have successfully logged in!');
+        setSnackbarOpen(true);
+      }, 500)
+    }
+  }, []);
 
   const login = async(user: any) =>
   {

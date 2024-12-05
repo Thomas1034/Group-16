@@ -17,10 +17,6 @@ function CreatePage() {
     {
         setFormError(true);
     }
-    // Handle API Call here
-    // Api returns an id
-    
-
 
     const formData = new FormData();
     formData.append('name', managerName);
