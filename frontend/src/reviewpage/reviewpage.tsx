@@ -212,6 +212,34 @@ function ReviewPage() {
     setSnackbarOpen(false);
   };
 
+  const handleDelete = async () => {
+    const token = localStorage.getItem("userID");
+    try {
+      const response = await fetch(
+        `https://contactcrucible.xyz/api/reviews/${reviewId}`,
+        {
+          method: "DELETE",
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        setSnackbarMessage("Review deleted!");
+        setReviews((prev) => prev.filter((review) => review._id !== reviewId));
+        setUpdate(false); // Reset update state
+        setReviewId(""); // Clear review ID
+      } else {
+        setSnackbarMessage("Failed to delete review.");
+      }
+    } catch (error) {
+      setSnackbarMessage("Error deleting review.");
+    }
+    setSnackbarOpen(true);
+  };
+
 
   if (loading) {
     return (
@@ -262,9 +290,17 @@ function ReviewPage() {
               { (!update) ? 
               <Button variant="contained" color="primary" onClick={handleFormOpen}>
                 Add Review
-              </Button> : <Button variant="contained" color="primary" onClick={() => setUpdateForm(true)}>
+              </Button> : <><Button variant="contained" color="primary" onClick={() => setUpdateForm(true)}>
                 Update Review
               </Button>
+              <Button
+              variant="outlined"
+              color="error"
+              sx={{ marginLeft: "10px" }}
+              onClick={handleDelete}
+            >
+              Delete Review
+            </Button></>
                 }
             </Stack>
             </Stack>
