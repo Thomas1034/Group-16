@@ -11,7 +11,7 @@ interface TokenPayload {
 export const generateToken = (user_id: ObjectId): string =>  {
     const payload: TokenPayload = { user_id };
 
-    return jwt.sign(payload, process.env.TOKEN_SECRET!, { expiresIn: '1800s' });
+    return jwt.sign(payload, process.env.TOKEN_SECRET!, {});
 }
 
 
