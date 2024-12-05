@@ -22,6 +22,7 @@ let manager = {
   _id: "temp",
   name: "test",
   image: "test",
+  description: "test",
   url: null,
   author: {
     _id: "string",
@@ -318,6 +319,9 @@ function ReviewPage() {
               </Typography>
               <Typography variant="body1" sx={{ color: "text.secondary", marginBottom:"30px"}}>
                 By: {manager.author.username}
+              </Typography>
+              <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", marginBottom:"30px"}}>
+                {manager.description}
               </Typography>
               <Rating size="large" sx={{marginBottom:"20px"}} value={(Math.round(manager.avgRating * 10)/10)} precision={0.1} readOnly />
               <Stack direction="row" sx={{marginTop: "10px"}}>
