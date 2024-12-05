@@ -98,7 +98,7 @@ function ReviewPage() {
     if (managerId) {
       getContact(managerId).then(() => {
         fetchReviews(managerId).then((data) => {
-          const filteredReviews = data.filter((r) => {
+          const filteredReviews = data.filter((r: any) => {
             try {
               if (r.userId && r.userId._id && typeof r.rating === "number" && r.body) {
                 return true; 
