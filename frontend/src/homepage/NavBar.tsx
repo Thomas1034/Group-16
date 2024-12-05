@@ -142,13 +142,11 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
   }
 
   const handleLogin = async() => {
-    // API
     if (username.length == 0 || password.length == 0)
     {
       setLoginError(true);
       return;
     }
-    // API CALL HERE
     var user = {'username': username, 'password': password};
     var id = await login(user);
     localStorage.setItem('realUserId', id.id);
@@ -195,7 +193,6 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
 
   const handleRegister = async() => 
   {
-    // API CALL HERE
     if (username.length == 0 || password.length == 0 || email.length == 0)
     {
       setRegisterError(true);
