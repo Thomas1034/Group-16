@@ -159,6 +159,7 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
     setUserID(id);
     localStorage.setItem('loggedIn', 'true');
     localStorage.setItem('userID', id);
+    window.location.reload();
     setTimeout(() => {
       setLoggedIn(true);
       setUserID(null);
@@ -229,6 +230,7 @@ function NavBar({ setSearch, showSearchBar = true}: { setSearch: (search: string
   const handleLogout = () => {
     handleCloseUserMenu();
     localStorage.clear();
+    window.location.reload();
     setTimeout(() => {
       setLoggedIn(false);
       setUserID(null);
