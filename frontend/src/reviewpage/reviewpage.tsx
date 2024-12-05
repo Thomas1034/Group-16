@@ -98,12 +98,25 @@ function ReviewPage() {
     if (managerId) {
       getContact(managerId).then(() => {
         fetchReviews(managerId).then((data) => {
-          setReviews(data);
+          const filteredReviews = data.filter((r) => {
+            try {
+              if (r.userId && r.userId._id && typeof r.rating === "number" && r.body) {
+                return true; 
+              }
+              throw new Error("Format");
+            } catch (error) {
+              console.error("Wack", error, r);
+              return false;
+            }
+          });
+  
+          setReviews(filteredReviews);
           setLoading(false);
         });
       });
     }
   }, [managerId]);
+  
 
   React.useEffect(() => {
     reviews.forEach((r) => {
